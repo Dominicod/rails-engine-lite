@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class InvoiceItem < ApplicationRecord
   belongs_to :item
   belongs_to :invoice
@@ -7,5 +9,5 @@ class InvoiceItem < ApplicationRecord
   validates :quantity, presence: true
   validates :unit_price, presence: true
   validates :status, presence: true
-  enum status: [ :pending, :packaged, :shipped]
+  enum status: %i[pending packaged shipped]
 end
