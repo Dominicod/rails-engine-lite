@@ -40,6 +40,7 @@ group :development, :test do
   gem 'rubocop'
   gem 'rubocop-faker'
   gem 'simplecov'
+  gem 'shoulda-matchers'
 end
 
 group :development do
