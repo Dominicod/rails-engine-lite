@@ -39,6 +39,7 @@ group :development, :test do
   gem 'rspec-rails'
   gem 'rubocop'
   gem 'rubocop-faker'
+  gem 'shoulda-matchers'
   gem 'simplecov'
 end
 
