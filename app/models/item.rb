@@ -15,8 +15,6 @@ class Item < ApplicationRecord
   private
 
   def destroy_associations
-    invoices.each do |invoice|
-      invoice.destroy if invoice.items.count == 1
-    end
+    invoices.each { |invoice| invoice.destroy if invoice.items.count == 1 }
   end
 end
