@@ -13,8 +13,10 @@ RSpec.describe 'Merchants API | Show' do
         expect(response.successful?).to eq true
 
         merchant = JSON.parse(response.body, symbolize_names: true)[:data][0]
-
+        # Check return length
         expect(merchant.count).to eq 3
+        expect(merchant[:attributes].count).to eq 1
+
         expect(merchant).to have_key(:id)
         expect(merchant[:id]).to eq merchant_creation.id.to_s
         expect(merchant).to have_key(:type)
@@ -22,7 +24,6 @@ RSpec.describe 'Merchants API | Show' do
         expect(merchant).to have_key(:attributes)
         expect(merchant[:attributes]).to be_an(Hash)
         expect(merchant[:attributes]).to have_key(:name)
-        expect(merchant[:attributes].count).to eq 1
         expect(merchant.dig(:attributes, :name)).to eq merchant_creation.name
       end
     end

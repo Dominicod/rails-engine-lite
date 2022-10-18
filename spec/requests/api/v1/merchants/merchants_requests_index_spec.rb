@@ -22,7 +22,10 @@ RSpec.describe 'Merchants API | Index' do
         merchants = JSON.parse(response.body, symbolize_names: true)
 
         merchants[:data].each do |merchant|
+          # Check return length
           expect(merchant.count).to eq 3
+          expect(merchant[:attributes].count).to eq 1
+
           expect(merchant).to have_key(:id)
           expect(merchant[:id]).to be_an(String)
           expect(merchant).to have_key(:type)
@@ -30,7 +33,6 @@ RSpec.describe 'Merchants API | Index' do
           expect(merchant).to have_key(:attributes)
           expect(merchant[:attributes]).to be_an(Hash)
           expect(merchant[:attributes]).to have_key(:name)
-          expect(merchant[:attributes].count).to eq 1
           expect(merchant.dig(:attributes, :name)).to be_an(String)
         end
       end

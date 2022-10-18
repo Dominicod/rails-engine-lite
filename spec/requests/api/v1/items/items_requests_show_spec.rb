@@ -13,8 +13,10 @@ RSpec.describe 'Items API | Show' do
         expect(response.successful?).to eq true
 
         item = JSON.parse(response.body, symbolize_names: true)[:data][0]
-
+        # Check return length
         expect(item.count).to eq 3
+        expect(item[:attributes].count).to eq 4
+
         expect(item).to have_key(:id)
         expect(item[:id]).to eq item_creation.id.to_s
         expect(item).to have_key(:type)
@@ -25,7 +27,6 @@ RSpec.describe 'Items API | Show' do
         expect(item[:attributes]).to have_key(:description)
         expect(item[:attributes]).to have_key(:unit_price)
         expect(item[:attributes]).to have_key(:merchant_id)
-        expect(item[:attributes].count).to eq 4
         expect(item.dig(:attributes, :name)).to eq item_creation.name
         expect(item.dig(:attributes, :description)).to eq item_creation.description
         expect(item.dig(:attributes, :unit_price)).to eq item_creation.unit_price
