@@ -27,7 +27,7 @@ RSpec.describe 'Items API | Show' do
         expect(item[:attributes].count).to eq 3
         expect(item.dig(:attributes, :name)).to eq item_creation.name
         expect(item.dig(:attributes, :description)).to eq item_creation.description
-        expect(item.dig(:attributes, :unit_price)).to item_creation.unit_price
+        expect(item.dig(:attributes, :unit_price)).to eq item_creation.unit_price
       end
     end
 
