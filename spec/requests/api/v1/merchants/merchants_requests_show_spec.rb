@@ -16,7 +16,7 @@ RSpec.describe 'Merchants API | Show' do
 
         expect(merchant.count).to eq 3
         expect(merchant).to have_key(:id)
-        expect(merchant[:id]).to eq merchant_creation.id
+        expect(merchant[:id]).to eq merchant_creation.id.to_s
         expect(merchant).to have_key(:type)
         expect(merchant[:type]).to be_an(String)
         expect(merchant).to have_key(:attributes)
