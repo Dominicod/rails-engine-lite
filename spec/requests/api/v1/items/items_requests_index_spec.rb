@@ -11,17 +11,17 @@ RSpec.describe 'Items API | Index' do
         get api_v1_items_path
         expect(response).to be_successful
 
-        items = JSON.parse(response.body, symbolize_names: true)
-        expect(items[:data].count).to eq 10
+        items_response = JSON.parse(response.body, symbolize_names: true)
+        expect(items_response[:data].count).to eq 10
       end
 
       it 'items values are correct types' do
         get api_v1_items_path
         expect(response.successful?).to eq true
 
-        items = JSON.parse(response.body, symbolize_names: true)
+        items_response = JSON.parse(response.body, symbolize_names: true)
 
-        items[:data].each do |item|
+        items_response[:data].each do |item|
           # Check return length
           expect(item.count).to eq 3
           expect(item[:attributes].count).to eq 4
@@ -49,10 +49,10 @@ RSpec.describe 'Items API | Index' do
         get api_v1_items_path
         expect(response.successful?).to eq true
 
-        items = JSON.parse(response.body, symbolize_names: true)
+        items_response = JSON.parse(response.body, symbolize_names: true)
 
-        expect(items).to be_an(Hash)
-        expect(items[:data].empty?).to be true
+        expect(items_response).to be_an(Hash)
+        expect(items_response[:data].empty?).to be true
       end
     end
   end

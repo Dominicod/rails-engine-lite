@@ -11,18 +11,17 @@ RSpec.describe 'Merchants API | Index' do
         get api_v1_merchants_path
         expect(response).to be_successful
 
-        merchants = JSON.parse(response.body, symbolize_names: true)
-        expect(merchants[:data].count).to eq 10
+        merchants_response = JSON.parse(response.body, symbolize_names: true)
+        expect(merchants_response[:data].count).to eq 10
       end
 
       it 'merchants values are correct types' do
         get api_v1_merchants_path
         expect(response.successful?).to eq true
 
+        merchants_response = JSON.parse(response.body, symbolize_names: true)
 
-        merchants = JSON.parse(response.body, symbolize_names: true)
-
-        merchants[:data].each do |merchant|
+        merchants_response[:data].each do |merchant|
           # Check return length
           expect(merchant.count).to eq 3
           expect(merchant[:attributes].count).to eq 1
@@ -44,10 +43,10 @@ RSpec.describe 'Merchants API | Index' do
         get api_v1_merchants_path
         expect(response.successful?).to eq true
 
-        merchants = JSON.parse(response.body, symbolize_names: true)
+        merchants_response = JSON.parse(response.body, symbolize_names: true)
 
-        expect(merchants).to be_an(Hash)
-        expect(merchants[:data].empty?).to be true
+        expect(merchants_response).to be_an(Hash)
+        expect(merchants_response[:data].empty?).to be true
       end
     end
   end
