@@ -35,8 +35,10 @@ group :development, :test do
   gem 'byebug', platforms: %i[mri mingw x64_mingw]
   gem 'factory_bot_rails'
   gem 'faker'
+  gem 'jsonapi.rb'
   gem 'jsonapi-serializer'
   gem 'pry'
+  gem 'ransack'
   gem 'rspec-rails'
   gem 'rubocop'
   gem 'rubocop-faker'
