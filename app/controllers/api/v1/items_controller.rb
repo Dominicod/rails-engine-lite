@@ -15,6 +15,10 @@ module Api
         render json: ItemSerializer.new(Item.create!(item_params)), status: 201
       end
 
+      def destroy
+        Item.destroy(params[:id])
+      end
+
       private
 
       def item_params
