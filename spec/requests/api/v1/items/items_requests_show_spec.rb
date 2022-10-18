@@ -12,7 +12,7 @@ RSpec.describe 'Items API | Show' do
         get api_v1_item_path(item_creation.id)
         expect(response.successful?).to eq true
 
-        item = JSON.parse(response.body, symbolize_names: true)[:data][0]
+        item = JSON.parse(response.body, symbolize_names: true)[:data]
         # Check return length
         expect(item.count).to eq 3
         expect(item[:attributes].count).to eq 4

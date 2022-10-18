@@ -19,6 +19,7 @@ RSpec.describe 'Merchants API | Index' do
         get api_v1_merchants_path
         expect(response.successful?).to eq true
 
+
         merchants = JSON.parse(response.body, symbolize_names: true)
 
         merchants[:data].each do |merchant|

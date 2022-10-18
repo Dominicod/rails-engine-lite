@@ -12,7 +12,7 @@ RSpec.describe 'Merchants API | Show' do
         get api_v1_merchant_path(merchant_creation.id)
         expect(response.successful?).to eq true
 
-        merchant = JSON.parse(response.body, symbolize_names: true)[:data][0]
+        merchant = JSON.parse(response.body, symbolize_names: true)[:data]
         # Check return length
         expect(merchant.count).to eq 3
         expect(merchant[:attributes].count).to eq 1

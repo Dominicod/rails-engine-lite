@@ -8,7 +8,7 @@ module Api
       end
 
       def show
-        render json: ItemSerializer.new([Item.find(params[:id])])
+        render json: ItemSerializer.new(Item.find(params[:id]))
       end
     end
   end
