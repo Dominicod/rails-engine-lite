@@ -31,6 +31,27 @@ RSpec.describe 'Items API | Show' do
         expect(item.dig(:attributes, :unit_price)).to eq @item.unit_price
         expect(item.dig(:attributes, :merchant_id)).to eq @item.merchant_id
       end
+
+      it 'returns items for given merchants :id' do
+        get api_v1_item_merchants_path(@item.id)
+        item_merchant = @item.merchant
+
+        expect(response.successful?).to eq true
+
+        merchant = JSON.parse(response.body, symbolize_names: true)[:data]
+        # Check return length
+        expect(merchant.count).to eq 3
+        expect(merchant[:attributes].count).to eq 1
+
+        expect(merchant).to have_key(:id)
+        expect(merchant[:id]).to eq item_merchant.id.to_s
+        expect(merchant).to have_key(:type)
+        expect(merchant[:type]).to be_an(String)
+        expect(merchant).to have_key(:attributes)
+        expect(merchant[:attributes]).to be_an(Hash)
+        expect(merchant[:attributes]).to have_key(:name)
+        expect(merchant.dig(:attributes, :name)).to eq item_merchant.name
+      end
     end
 
     context('Edge Case') do
