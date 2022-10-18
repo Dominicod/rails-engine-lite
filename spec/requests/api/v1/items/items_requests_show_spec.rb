@@ -42,5 +42,18 @@ RSpec.describe 'Items API | Show' do
         response = JSON.parse(response.body, symbolize_names: true)
       end
     end
+
+    context('Sad Path') do
+      it 'returns empty array if no merchant found' do
+        item_creation = create(:item, merchant: nil)
+        get api_v1_item_merchants_path(item_creation.id)
+        expect(response.successful?).to eq true
+
+        merchant = JSON.parse(response.body, symbolize_names: true)
+
+        expect(merchant).to be_an(Hash)
+        expect(merchant[:data].empty?).to be true
+      end
+    end
   end
 end
