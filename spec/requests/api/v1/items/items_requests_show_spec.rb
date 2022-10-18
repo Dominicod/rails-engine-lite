@@ -34,7 +34,7 @@ RSpec.describe 'Items API | Show' do
         expect(item_response.dig(:attributes, :merchant_id)).to eq @item.merchant_id
       end
 
-      it 'returns items for given merchants :id' do
+      it 'returns merchant for given item :id' do
         get api_v1_item_merchant_index_path(@item.id)
 
         expect(response.successful?).to eq true
@@ -62,7 +62,7 @@ RSpec.describe 'Items API | Show' do
 
         expect(response.successful?).to eq false
 
-        merchant_response = JSON.parse(response.body, symbolize_names: true)
+        item_response = JSON.parse(response.body, symbolize_names: true)
         # expect(response).to have_http_status()
       end
     end
