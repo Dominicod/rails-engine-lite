@@ -2,48 +2,29 @@
 
 require 'rails_helper'
 
-RSpec.describe 'Items API | Create' do
-  describe 'Item Create' do
+RSpec.describe 'Items API | Destroy' do
+  describe 'Item Destroy' do
     context('Happy Path') do
-      let(:merchant) { create(:merchant) }
+      before(:each) { @item = create(:item) }
 
-      it 'creates a new item' do
-        item_params = {
-          name: 'Ruby',
-          description: 'Does cool things',
-          unit_price: 99.99,
-          merchant_id: merchant.id
-        }
-        headers = { CONTENT_TYPE: 'application/json' }
-
-        post api_v1_items_path, headers: headers, params: JSON.generate(item: item_params)
-
-        item = Item.last
-
+      it 'destroys an item' do
+        expect { delete api_v1_items_path(@item) }.to change(Item, :count).by(-1)
         expect(response.successful?).to eq true
-        expect(response).to have_http_status(201)
+        expect(response).to have_http_status(204)
 
-        item_response = JSON.parse(response.body, symbolize_names: true)[:data]
-
-        expect(item_response.count).to eq 3
-        expect(item_response[:attributes].count).to eq 4
-
-        expect(item_response).to have_key(:id)
-        expect(item_response[:id]).to eq item.id.to_s
-        expect(item_response).to have_key(:type)
-        expect(item_response[:type]).to be_an(String)
-        expect(item_response).to have_key(:attributes)
-        expect(item_response[:attributes]).to be_an(Hash)
-        expect(item_response[:attributes]).to have_key(:name)
-        expect(item_response[:attributes]).to have_key(:description)
-        expect(item_response[:attributes]).to have_key(:unit_price)
-        expect(item_response[:attributes]).to have_key(:merchant_id)
-        expect(item_response.dig(:attributes, :name)).to eq item.name
-        expect(item_response.dig(:attributes, :description)).to eq item.description
-        expect(item_response.dig(:attributes, :unit_price)).to eq item.unit_price
-        expect(item_response.dig(:attributes, :merchant_id)).to eq item.merchant_id
+        expect { Item.find(@item.id) }.to raise_error(ActiveRecord::RecordNotFound)
       end
     end
 
+    context('Edge Case') do
+      xit 'returns error message if :id is not found' do
+        get api_v1_item_path(40)
+
+        expect(response.successful?).to eq false
+
+        item_response = JSON.parse(response.body, symbolize_names: true)
+        # expect(response).to have_http_status()
+      end
+    end
   end
 end
