@@ -2,14 +2,13 @@
 
 require 'rails_helper'
 
-RSpec.describe 'Merchants API' do
+RSpec.describe 'Merchants API | Index' do
   describe 'Merchant Index' do
-    let(:url) { '/api/v1' }
     context('Happy Path') do
       before(:each) { create_list(:merchant, 10) }
 
       it 'returns all merchants' do
-        get "#{url}/merchants"
+        get api_v1_merchants_path
         expect(response).to be_successful
 
         merchants = JSON.parse(response.body, symbolize_names: true)
@@ -17,7 +16,7 @@ RSpec.describe 'Merchants API' do
       end
 
       it 'merchant values are correct types' do
-        get "#{url}/merchants"
+        get api_v1_merchants_path
         expect(response).to be_successful
 
         merchants = JSON.parse(response.body, symbolize_names: true)
@@ -39,7 +38,7 @@ RSpec.describe 'Merchants API' do
 
     context('Sad Path') do
       it 'returns array of data if no merchants found' do
-        get "#{url}/merchants"
+        get api_v1_merchants_path
         expect(response).to be_successful
 
         merchants = JSON.parse(response.body, symbolize_names: true)
