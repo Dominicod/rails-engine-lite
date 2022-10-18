@@ -2,7 +2,7 @@
 
 module Api
   module V1
-    module Item
+    module Items
       class MerchantController < ApplicationController
         def index; end
       end

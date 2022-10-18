@@ -7,7 +7,7 @@ RSpec.describe 'Merchants API | Index' do
     context('Happy Path') do
       before(:each) { create_list(:merchant, 10) }
 
-      it 'returns all merchant' do
+      it 'returns all merchants' do
         get api_v1_merchants_path
         expect(response).to be_successful
 
@@ -15,7 +15,7 @@ RSpec.describe 'Merchants API | Index' do
         expect(merchants[:data].count).to eq 10
       end
 
-      it 'merchant values are correct types' do
+      it 'merchants values are correct types' do
         get api_v1_merchants_path
         expect(response.successful?).to eq true
 
@@ -40,7 +40,7 @@ RSpec.describe 'Merchants API | Index' do
     end
 
     context('Sad Path') do
-      it 'returns empty array if no merchant found' do
+      it 'returns empty array if no merchants found' do
         get api_v1_merchants_path
         expect(response.successful?).to eq true
 

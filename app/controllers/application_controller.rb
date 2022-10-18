@@ -23,12 +23,4 @@ class ApplicationController < ActionController::API
     error = { status: '422', title: Rack::Utils::HTTP_STATUS_CODES[422], detail: exception }
     { message: 'your query could not be completed', errors: [error] }
   end
-
-  def current_merchant
-    Merchant.find(params[:id])
-  end
-
-  def current_item
-    Item.find(params[:id])
-  end
 end
