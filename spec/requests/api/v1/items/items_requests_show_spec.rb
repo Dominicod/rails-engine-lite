@@ -34,7 +34,7 @@ RSpec.describe 'Items API | Show' do
       end
 
       it 'returns items for given merchants :id' do
-        get api_v1_item_merchants_path(@item.id)
+        get api_v1_item_merchant_index_path(@item.id)
 
         expect(response.successful?).to eq true
 
