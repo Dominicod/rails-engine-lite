@@ -37,6 +37,7 @@ RSpec.describe 'Items API | Show' do
     context('Edge Case') do
       it 'returns error message if :id is not found' do
         get api_v1_item_path(40)
+        binding.pry
 
         expect(response.successful?).to eq false
 
