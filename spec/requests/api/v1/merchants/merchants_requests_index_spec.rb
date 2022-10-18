@@ -10,6 +10,7 @@ RSpec.describe 'Merchants API | Index' do
       it 'returns all merchants' do
         get api_v1_merchants_path
         expect(response).to be_successful
+        expect(response).to have_http_status(200)
 
         merchants_response = JSON.parse(response.body, symbolize_names: true)
         expect(merchants_response[:data].count).to eq 10
@@ -18,6 +19,7 @@ RSpec.describe 'Merchants API | Index' do
       it 'merchants values are correct types' do
         get api_v1_merchants_path
         expect(response.successful?).to eq true
+        expect(response).to have_http_status(200)
 
         merchants_response = JSON.parse(response.body, symbolize_names: true)
 
@@ -42,6 +44,7 @@ RSpec.describe 'Merchants API | Index' do
       it 'returns empty array if no merchants found' do
         get api_v1_merchants_path
         expect(response.successful?).to eq true
+        expect(response).to have_http_status(200)
 
         merchants_response = JSON.parse(response.body, symbolize_names: true)
 

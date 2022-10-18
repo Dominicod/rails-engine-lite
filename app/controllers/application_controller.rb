@@ -16,11 +16,12 @@ class ApplicationController < ActionController::API
 
   def catch_exception_not_found(exception)
     error = { status: '404', title: Rack::Utils::HTTP_STATUS_CODES[404], detail: exception }
-    { message: 'your query could not be completed', errors: [error] }
+    { message: 'your query could not be completed', error: [error] }
   end
 
   def catch_exception_unprocessable_entity(exception)
-    error = { status: '422', title: Rack::Utils::HTTP_STATUS_CODES[422], detail: exception }
-    { message: 'your query could not be completed', errors: [error] }
+    errors = exception.message.split(':')[1].split(',').map(&:strip)
+    error = { status: '422', title: Rack::Utils::HTTP_STATUS_CODES[422], detail: errors }
+    { message: 'your query could not be completed', error: [error] }
   end
 end
