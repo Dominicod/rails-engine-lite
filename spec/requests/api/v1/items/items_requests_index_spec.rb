@@ -7,7 +7,7 @@ RSpec.describe 'Items API | Index' do
     context('Happy Path') do
       before(:each) { create_list(:item, 10) }
 
-      it 'returns all items' do
+      it 'returns all item' do
         get api_v1_items_path
         expect(response).to be_successful
 
@@ -45,7 +45,7 @@ RSpec.describe 'Items API | Index' do
     end
 
     context('Sad Path') do
-      it 'returns empty array if no items found' do
+      it 'returns empty array if no item found' do
         get api_v1_items_path
         expect(response.successful?).to eq true
 

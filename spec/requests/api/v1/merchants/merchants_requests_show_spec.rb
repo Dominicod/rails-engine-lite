@@ -26,6 +26,16 @@ RSpec.describe 'Merchants API | Show' do
         expect(merchant[:attributes]).to have_key(:name)
         expect(merchant.dig(:attributes, :name)).to eq merchant_creation.name
       end
+
+      it 'returns item for given merchant :id' do
+        merchant_creation = create(:merchant)
+        get api_v1_merchant_items_path(merchant_creation.id)
+        expect(response.successful?).to eq true
+
+        items = JSON.parse(response.body, symbolize_names: true)[:data]
+        # Check return length
+        expect(items.count).to eq 3
+      end
     end
 
     context('Edge Case') do
