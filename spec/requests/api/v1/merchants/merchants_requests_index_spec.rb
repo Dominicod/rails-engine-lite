@@ -15,7 +15,7 @@ RSpec.describe 'Merchants API | Index' do
         expect(merchants[:data].count).to eq 10
       end
 
-      it 'merchant values are correct types' do
+      it 'merchants values are correct types' do
         get api_v1_merchants_path
         expect(response.successful?).to eq true
 

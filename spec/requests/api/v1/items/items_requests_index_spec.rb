@@ -15,7 +15,7 @@ RSpec.describe 'Items API | Index' do
         expect(items[:data].count).to eq 10
       end
 
-      it 'item values are correct types' do
+      it 'items values are correct types' do
         get api_v1_items_path
         expect(response.successful?).to eq true
 
