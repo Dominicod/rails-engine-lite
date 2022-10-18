@@ -14,7 +14,7 @@ RSpec.describe 'Items API | Create' do
           unit_price: 99.99,
           merchant_id: merchant.id
         }
-        headers = { content_type: 'application/json' }
+        headers = { CONTENT_TYPE: 'application/json' }
 
         post api_v1_items_path, headers: headers, params: JSON.generate(item: item_params)
 
@@ -23,7 +23,7 @@ RSpec.describe 'Items API | Create' do
         expect(response.successful?).to eq true
         expect(response).to have_http_status(201)
 
-        item_response = JSON.parse(response, symbolize_names: true)
+        item_response = JSON.parse(response.body, symbolize_names: true)[:data]
 
         expect(item_response.count).to eq 3
         expect(item_response[:attributes].count).to eq 4
@@ -56,7 +56,7 @@ RSpec.describe 'Items API | Create' do
 
         post api_v1_items_path, headers: headers, params: JSON.generate(item: item_params)
         expect(response.successful?).to eq false
-        # expect(response).to have_http_status(201)
+        # expect(response).to have_http_status()
       end
     end
   end
