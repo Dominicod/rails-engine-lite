@@ -45,7 +45,7 @@ RSpec.describe 'Items API | Index' do
     end
 
     context('Sad Path') do
-      it 'returns array of data if no items found' do
+      it 'returns empty array if no items found' do
         get api_v1_items_path
         expect(response.successful?).to eq true
 

@@ -40,7 +40,7 @@ RSpec.describe 'Merchants API | Index' do
     end
 
     context('Sad Path') do
-      it 'returns array of data if no merchants found' do
+      it 'returns empty array if no merchants found' do
         get api_v1_merchants_path
         expect(response.successful?).to eq true
 

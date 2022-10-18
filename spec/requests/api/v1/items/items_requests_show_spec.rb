@@ -34,7 +34,7 @@ RSpec.describe 'Items API | Show' do
       end
     end
 
-    context('Sad Path') do
+    context('Edge Case') do
       it 'returns error message if :id is not found' do
         get api_v1_item_path(40)
 
