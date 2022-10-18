@@ -5,7 +5,10 @@ require 'rails_helper'
 RSpec.describe 'Items API | Show' do
   describe 'Item Show' do
     context('Happy Path') do
-      before(:each) { @item = create(:item) }
+      before(:each) do
+        @item = create(:item)
+        @merchant = @item.merchant
+      end
 
       it 'returns correct items of given :id' do
         get api_v1_item_path(@item.id)
@@ -34,7 +37,6 @@ RSpec.describe 'Items API | Show' do
 
       it 'returns items for given merchants :id' do
         get api_v1_item_merchants_path(@item.id)
-        item_merchant = @item.merchant
 
         expect(response.successful?).to eq true
 
@@ -44,13 +46,13 @@ RSpec.describe 'Items API | Show' do
         expect(merchant[:attributes].count).to eq 1
 
         expect(merchant).to have_key(:id)
-        expect(merchant[:id]).to eq item_merchant.id.to_s
+        expect(merchant[:id]).to eq @merchant.id.to_s
         expect(merchant).to have_key(:type)
         expect(merchant[:type]).to be_an(String)
         expect(merchant).to have_key(:attributes)
         expect(merchant[:attributes]).to be_an(Hash)
         expect(merchant[:attributes]).to have_key(:name)
-        expect(merchant.dig(:attributes, :name)).to eq item_merchant.name
+        expect(merchant.dig(:attributes, :name)).to eq @merchant.name
       end
     end
 
@@ -61,19 +63,6 @@ RSpec.describe 'Items API | Show' do
         expect(response.successful?).to eq false
 
         response = JSON.parse(response.body, symbolize_names: true)
-      end
-    end
-
-    context('Sad Path') do
-      it 'returns empty array if no merchant found' do
-        item_creation = create(:item, merchant: nil)
-        get api_v1_item_merchants_path(item_creation.id)
-        expect(response.successful?).to eq true
-
-        merchant = JSON.parse(response.body, symbolize_names: true)
-
-        expect(merchant).to be_an(Hash)
-        expect(merchant[:data].empty?).to be true
       end
     end
   end
