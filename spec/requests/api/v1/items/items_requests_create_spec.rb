@@ -6,7 +6,7 @@ RSpec.describe 'Items API | Create' do
   describe 'Item Create' do
     context('Happy Path') do
       let(:merchant) { create(:merchant) }
-      
+
       it 'creates a new item' do
         item_params = {
           name: 'Ruby',
