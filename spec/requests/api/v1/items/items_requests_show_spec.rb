@@ -11,6 +11,7 @@ RSpec.describe 'Items API | Show' do
       it 'returns correct items of given :id' do
         get api_v1_item_path(@item.id)
         expect(response.successful?).to eq true
+        expect(response).to have_http_status(200)
 
         item_response = JSON.parse(response.body, symbolize_names: true)[:data]
         # Check return length
@@ -37,6 +38,7 @@ RSpec.describe 'Items API | Show' do
         get api_v1_item_merchant_index_path(@item.id)
 
         expect(response.successful?).to eq true
+        expect(response).to have_http_status(200)
 
         merchant_response = JSON.parse(response.body, symbolize_names: true)[:data]
         # Check return length
@@ -61,6 +63,7 @@ RSpec.describe 'Items API | Show' do
         expect(response.successful?).to eq false
 
         merchant_response = JSON.parse(response.body, symbolize_names: true)
+        # expect(response).to have_http_status()
       end
     end
   end

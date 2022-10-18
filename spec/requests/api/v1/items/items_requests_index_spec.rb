@@ -10,6 +10,7 @@ RSpec.describe 'Items API | Index' do
       it 'returns all items' do
         get api_v1_items_path
         expect(response).to be_successful
+        expect(response).to have_http_status(200)
 
         items_response = JSON.parse(response.body, symbolize_names: true)
         expect(items_response[:data].count).to eq 10
@@ -48,6 +49,7 @@ RSpec.describe 'Items API | Index' do
       it 'returns empty array if no items found' do
         get api_v1_items_path
         expect(response.successful?).to eq true
+        expect(response).to have_http_status(200)
 
         items_response = JSON.parse(response.body, symbolize_names: true)
 

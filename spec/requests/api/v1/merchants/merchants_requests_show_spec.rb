@@ -10,6 +10,7 @@ RSpec.describe 'Merchants API | Show' do
       it 'returns correct merchants of given :id' do
         get api_v1_merchant_path(@merchant.id)
         expect(response.successful?).to eq true
+        expect(response).to have_http_status(200)
 
         merchant_response = JSON.parse(response.body, symbolize_names: true)[:data]
         # Check return length
@@ -31,6 +32,7 @@ RSpec.describe 'Merchants API | Show' do
         get api_v1_merchant_items_path(@merchant.id)
 
         expect(response.successful?).to eq true
+        expect(response).to have_http_status(200)
 
         items_response = JSON.parse(response.body, symbolize_names: true)[:data]
         # Check return length
@@ -62,6 +64,7 @@ RSpec.describe 'Merchants API | Show' do
         get api_v1_merchant_path(40)
 
         expect(response.successful?).to eq false
+        # expect(response).to have_http_status()
 
         item_response = JSON.parse(response.body, symbolize_names: true)
       end
@@ -73,6 +76,7 @@ RSpec.describe 'Merchants API | Show' do
       it 'returns empty array if no items found' do
         get api_v1_merchant_items_path(@merchant.id)
         expect(response.successful?).to eq true
+        expect(response).to have_http_status(200)
 
         items_response = JSON.parse(response.body, symbolize_names: true)
 
