@@ -15,6 +15,11 @@ class ApplicationController < ActionController::API
   private
 
   def catch_exception(exception)
-    binding.pry
+    {
+      message: 'your query could not be completed',
+      errors: [
+        exception
+      ]
+    }
   end
 end

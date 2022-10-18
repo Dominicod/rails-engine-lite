@@ -17,7 +17,7 @@ RSpec.describe 'Merchants API | Index' do
 
       it 'merchant values are correct types' do
         get api_v1_merchants_path
-        expect(response).to be_successful
+        expect(response.successful?).to eq true
 
         merchants = JSON.parse(response.body, symbolize_names: true)
 
@@ -39,7 +39,7 @@ RSpec.describe 'Merchants API | Index' do
     context('Sad Path') do
       it 'returns array of data if no merchants found' do
         get api_v1_merchants_path
-        expect(response).to be_successful
+        expect(response.successful?).to eq true
 
         merchants = JSON.parse(response.body, symbolize_names: true)
 

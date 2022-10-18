@@ -9,10 +9,10 @@ RSpec.describe 'Merchants API | Show' do
 
       it 'returns correct merchant of given :id' do
         merchant_creation = create(:merchant)
-        api_v1_merchant_path(merchant.id)
-        expect(response).to be_successful
+        get api_v1_merchant_path(merchant_creation.id)
+        expect(response.successful?).to eq true
 
-        merchant = JSON.parse(response.body, symbolize_names: true)
+        merchant = JSON.parse(response.body, symbolize_names: true)[:data][0]
 
         expect(merchant.count).to eq 3
         expect(merchant).to have_key(:id)
@@ -29,8 +29,9 @@ RSpec.describe 'Merchants API | Show' do
 
     context('Sad Path') do
       it 'returns error message if :id is not found' do
-        api_v1_merchant_path(merchant.id)
-        expect(response).to_not be_success
+        get api_v1_merchant_path(40)
+
+        expect(response.successful?).to eq false
 
         response = JSON.parse(response.body, symbolize: :names)
       end
