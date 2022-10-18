@@ -12,11 +12,13 @@ RSpec.describe 'Items API | Show' do
         get api_v1_item_path(item_creation.id)
         expect(response.successful?).to eq true
 
-        item = JSON.parse(response.body, symbolize_names: true)[:data][0]
-
+        item = JSON.parse(response.body, symbolize_names: true)[:data]
+        # Check return length
         expect(item.count).to eq 3
+        expect(item[:attributes].count).to eq 4
+
         expect(item).to have_key(:id)
-        expect(item[:id]).to eq item_creation.id
+        expect(item[:id]).to eq item_creation.id.to_s
         expect(item).to have_key(:type)
         expect(item[:type]).to be_an(String)
         expect(item).to have_key(:attributes)
@@ -24,16 +26,18 @@ RSpec.describe 'Items API | Show' do
         expect(item[:attributes]).to have_key(:name)
         expect(item[:attributes]).to have_key(:description)
         expect(item[:attributes]).to have_key(:unit_price)
-        expect(item[:attributes].count).to eq 3
+        expect(item[:attributes]).to have_key(:merchant_id)
         expect(item.dig(:attributes, :name)).to eq item_creation.name
         expect(item.dig(:attributes, :description)).to eq item_creation.description
         expect(item.dig(:attributes, :unit_price)).to eq item_creation.unit_price
+        expect(item.dig(:attributes, :merchant_id)).to eq item_creation.merchant_id
       end
     end
 
-    context('Sad Path') do
+    context('Edge Case') do
       it 'returns error message if :id is not found' do
         get api_v1_item_path(40)
+        binding.pry
 
         expect(response.successful?).to eq false
 

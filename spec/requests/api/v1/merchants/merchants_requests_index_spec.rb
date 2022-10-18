@@ -19,25 +19,28 @@ RSpec.describe 'Merchants API | Index' do
         get api_v1_merchants_path
         expect(response.successful?).to eq true
 
+
         merchants = JSON.parse(response.body, symbolize_names: true)
 
         merchants[:data].each do |merchant|
+          # Check return length
           expect(merchant.count).to eq 3
+          expect(merchant[:attributes].count).to eq 1
+
           expect(merchant).to have_key(:id)
-          expect(merchant[:id]).to be_an(Integer)
+          expect(merchant[:id]).to be_an(String)
           expect(merchant).to have_key(:type)
           expect(merchant[:type]).to be_an(String)
           expect(merchant).to have_key(:attributes)
           expect(merchant[:attributes]).to be_an(Hash)
           expect(merchant[:attributes]).to have_key(:name)
-          expect(merchant[:attributes].count).to eq 1
           expect(merchant.dig(:attributes, :name)).to be_an(String)
         end
       end
     end
 
     context('Sad Path') do
-      it 'returns array of data if no merchants found' do
+      it 'returns empty array if no merchants found' do
         get api_v1_merchants_path
         expect(response.successful?).to eq true
 
