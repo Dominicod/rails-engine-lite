@@ -5,34 +5,32 @@ require 'rails_helper'
 RSpec.describe 'Items API | Show' do
   describe 'Item Show' do
     context('Happy Path') do
-      before(:each) do
-        @item = create(:item)
-        @merchant = @item.merchant
-      end
+      before(:each) { @item = create(:item) }
+      let(:merchant) { @item.merchant }
 
       it 'returns correct items of given :id' do
         get api_v1_item_path(@item.id)
         expect(response.successful?).to eq true
 
-        item = JSON.parse(response.body, symbolize_names: true)[:data]
+        item_response = JSON.parse(response.body, symbolize_names: true)[:data]
         # Check return length
-        expect(item.count).to eq 3
-        expect(item[:attributes].count).to eq 4
+        expect(item_response.count).to eq 3
+        expect(item_response[:attributes].count).to eq 4
 
-        expect(item).to have_key(:id)
-        expect(item[:id]).to eq @item.id.to_s
-        expect(item).to have_key(:type)
-        expect(item[:type]).to be_an(String)
-        expect(item).to have_key(:attributes)
-        expect(item[:attributes]).to be_an(Hash)
-        expect(item[:attributes]).to have_key(:name)
-        expect(item[:attributes]).to have_key(:description)
-        expect(item[:attributes]).to have_key(:unit_price)
-        expect(item[:attributes]).to have_key(:merchant_id)
-        expect(item.dig(:attributes, :name)).to eq @item.name
-        expect(item.dig(:attributes, :description)).to eq @item.description
-        expect(item.dig(:attributes, :unit_price)).to eq @item.unit_price
-        expect(item.dig(:attributes, :merchant_id)).to eq @item.merchant_id
+        expect(item_response).to have_key(:id)
+        expect(item_response[:id]).to eq @item.id.to_s
+        expect(item_response).to have_key(:type)
+        expect(item_response[:type]).to be_an(String)
+        expect(item_response).to have_key(:attributes)
+        expect(item_response[:attributes]).to be_an(Hash)
+        expect(item_response[:attributes]).to have_key(:name)
+        expect(item_response[:attributes]).to have_key(:description)
+        expect(item_response[:attributes]).to have_key(:unit_price)
+        expect(item_response[:attributes]).to have_key(:merchant_id)
+        expect(item_response.dig(:attributes, :name)).to eq @item.name
+        expect(item_response.dig(:attributes, :description)).to eq @item.description
+        expect(item_response.dig(:attributes, :unit_price)).to eq @item.unit_price
+        expect(item_response.dig(:attributes, :merchant_id)).to eq @item.merchant_id
       end
 
       it 'returns items for given merchants :id' do
@@ -40,19 +38,19 @@ RSpec.describe 'Items API | Show' do
 
         expect(response.successful?).to eq true
 
-        merchant = JSON.parse(response.body, symbolize_names: true)[:data]
+        merchant_response = JSON.parse(response.body, symbolize_names: true)[:data]
         # Check return length
-        expect(merchant.count).to eq 3
-        expect(merchant[:attributes].count).to eq 1
+        expect(merchant_response.count).to eq 3
+        expect(merchant_response[:attributes].count).to eq 1
 
-        expect(merchant).to have_key(:id)
-        expect(merchant[:id]).to eq @merchant.id.to_s
-        expect(merchant).to have_key(:type)
-        expect(merchant[:type]).to be_an(String)
-        expect(merchant).to have_key(:attributes)
-        expect(merchant[:attributes]).to be_an(Hash)
-        expect(merchant[:attributes]).to have_key(:name)
-        expect(merchant.dig(:attributes, :name)).to eq @merchant.name
+        expect(merchant_response).to have_key(:id)
+        expect(merchant_response[:id]).to eq merchant.id.to_s
+        expect(merchant_response).to have_key(:type)
+        expect(merchant_response[:type]).to be_an(String)
+        expect(merchant_response).to have_key(:attributes)
+        expect(merchant_response[:attributes]).to be_an(Hash)
+        expect(merchant_response[:attributes]).to have_key(:name)
+        expect(merchant_response.dig(:attributes, :name)).to eq merchant.name
       end
     end
 
@@ -62,7 +60,7 @@ RSpec.describe 'Items API | Show' do
 
         expect(response.successful?).to eq false
 
-        response = JSON.parse(response.body, symbolize_names: true)
+        merchant_response = JSON.parse(response.body, symbolize_names: true)
       end
     end
   end
