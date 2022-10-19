@@ -29,10 +29,27 @@ RSpec.describe 'Items API | Find' do
           expect(response).to have_http_status(200)
 
           items_response = JSON.parse(response.body, symbolize_names: true)
-          items = [@item_1, @item_2, @item_3]
+          items = [@item_3, @item_1, @item_2]
 
           items_response[:data].each_with_index do |item, index|
-            include_examples 'item json', item, items, index
+            # Check return length
+            expect(item.count).to eq 3
+            expect(item[:attributes].count).to eq 4
+
+            expect(item).to have_key(:id)
+            expect(item[:id]).to eq items[index].id.to_s
+            expect(item).to have_key(:type)
+            expect(item[:type]).to be_an(String)
+            expect(item).to have_key(:attributes)
+            expect(item[:attributes]).to be_an(Hash)
+            expect(item[:attributes]).to have_key(:name)
+            expect(item[:attributes]).to have_key(:description)
+            expect(item[:attributes]).to have_key(:unit_price)
+            expect(item[:attributes]).to have_key(:merchant_id)
+            expect(item.dig(:attributes, :name)).to eq items[index].name
+            expect(item.dig(:attributes, :description)).to eq items[index].description
+            expect(item.dig(:attributes, :unit_price)).to eq items[index].unit_price
+            expect(item.dig(:attributes, :merchant_id)).to eq items[index].merchant_id
           end
         end
       end
@@ -48,7 +65,7 @@ RSpec.describe 'Items API | Find' do
         end
 
         xit 'items values are correct types and values' do
-          get api_v1_items_find_all_path(name: 'ring')
+          get api_v1_items_find_all_path(min_price: '50')
           expect(response.successful?).to eq true
           expect(response).to have_http_status(200)
 
@@ -89,7 +106,7 @@ RSpec.describe 'Items API | Find' do
         end
 
         xit 'items values are correct types and values' do
-          get api_v1_items_find_all_path(name: 'ring')
+          get api_v1_items_find_all_path(max_price: 'ring')
           expect(response.successful?).to eq true
           expect(response).to have_http_status(200)
 
@@ -121,7 +138,7 @@ RSpec.describe 'Items API | Find' do
 
       context 'Maximum + Minimum Price Parameter' do
         xit 'returns all items with given min_price param' do
-          get api_v1_items_find_all_path(max_price: '101.00', min_price: '50')
+          get api_v1_items_find_all_path(min_price: '50', max_price: '101.00')
           expect(response).to be_successful
           expect(response).to have_http_status(200)
 
@@ -130,7 +147,7 @@ RSpec.describe 'Items API | Find' do
         end
 
         xit 'items values are correct types and values' do
-          get api_v1_items_find_all_path(name: 'ring')
+          get api_v1_items_find_all_path(min_price: '50', max_price: '101.00')
           expect(response.successful?).to eq true
           expect(response).to have_http_status(200)
 
@@ -162,8 +179,41 @@ RSpec.describe 'Items API | Find' do
     end
 
     context('Sad Path') do
-      it 'returns empty array if no items found for given param' do
+      it 'returns empty array if no items found for name param' do
         get api_v1_items_find_all_path(name: 'ring')
+        expect(response.successful?).to eq true
+        expect(response).to have_http_status(200)
+
+        items_response = JSON.parse(response.body, symbolize_names: true)
+
+        expect(items_response).to be_an(Hash)
+        expect(items_response[:data].empty?).to be true
+      end
+
+      it 'returns empty array if no items found for min_price param' do
+        get api_v1_items_find_all_path(min_price: '50')
+        expect(response.successful?).to eq true
+        expect(response).to have_http_status(200)
+
+        items_response = JSON.parse(response.body, symbolize_names: true)
+
+        expect(items_response).to be_an(Hash)
+        expect(items_response[:data].empty?).to be true
+      end
+
+      it 'returns empty array if no items found for max_price param' do
+        get api_v1_items_find_all_path(max_price: '101')
+        expect(response.successful?).to eq true
+        expect(response).to have_http_status(200)
+
+        items_response = JSON.parse(response.body, symbolize_names: true)
+
+        expect(items_response).to be_an(Hash)
+        expect(items_response[:data].empty?).to be true
+      end
+
+      it 'returns empty array if no items found for min_max_price param' do
+        get api_v1_items_find_all_path(min_price: '50', max_price: '101')
         expect(response.successful?).to eq true
         expect(response).to have_http_status(200)
 
@@ -184,7 +234,7 @@ RSpec.describe 'Items API | Find' do
       end
 
       xit 'throws an error if name and min_price are sent' do
-        get api_v1_merchants_find_path(name: 'ring&min_price=50')
+        get api_v1_merchants_find_path(name: 'ring', min_price: '50')
         expect(response.successful?).to eq false
         expect(response).to have_http_status(400)
 
@@ -203,7 +253,7 @@ RSpec.describe 'Items API | Find' do
       end
 
       xit 'throws an error if name and max_price are sent' do
-        get api_v1_merchants_find_path(name: 'ring&max_price=50')
+        get api_v1_merchants_find_path(name: 'ring', max_price: '100')
         expect(response.successful?).to eq false
         expect(response).to have_http_status(400)
 
@@ -222,7 +272,7 @@ RSpec.describe 'Items API | Find' do
       end
 
       xit 'throws an error if name, min_price, and max_price are sent' do
-        get api_v1_merchants_find_path(name: 'ring&min_price=50&max_price=250')
+        get api_v1_merchants_find_path(name: 'ring', min_price: '50', max_price: '100')
         expect(response.successful?).to eq false
         expect(response).to have_http_status(400)
 
