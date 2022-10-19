@@ -14,4 +14,17 @@ RSpec.describe Merchant, type: :model do
   describe 'validations' do
     it { should validate_presence_of(:name) }
   end
+
+  describe 'class methods' do
+    describe '.find_by_name' do
+      it 'should return a single merchant with given param name' do
+        create_list(:merchant, 10)
+        merchant = create(:merchant, name: 'boring')
+        create(:merchant, name: 'thering')
+        create(:merchant, name: 'ringbewildin')
+
+        expect(Merchant.find_by_name('ring')).to eq merchant
+      end
+    end
+  end
 end

@@ -13,18 +13,17 @@ RSpec.describe 'Merchants API | Find' do
       end
 
       it 'returns requested merchant with ?name param' do
-        get api_v1_merchants_find_path(query: '?name=ring')
+        get api_v1_merchants_find_path(name: 'ring')
         expect(response).to be_successful
         expect(response).to have_http_status(200)
 
-        binding.pry
 
         merchant_response = JSON.parse(response.body, symbolize_names: true)
         expect(merchant_response[:data].count).to eq 1
       end
 
-      it 'merchants values are correct types and values' do
-        get api_v1_merchants_find_path(query: '?name=ring')
+      xit 'merchants values are correct types and values' do
+        get api_v1_merchants_find_path(name: 'ring')
         expect(response.successful?).to eq true
         expect(response).to have_http_status(200)
 
@@ -49,12 +48,12 @@ RSpec.describe 'Merchants API | Find' do
 
     context('Sad Path') do
       it 'returns empty array if no merchants found' do
-        get api_v1_merchants_find_path(query: '?name=ring')
+        get api_v1_merchants_find_path(name: 'ring')
         expect(response.successful?).to eq true
         expect(response).to have_http_status(200)
 
         merchant_response = JSON.parse(response.body, symbolize_names: true)
-        get api_v1_merchants_find_path
+
         expect(merchant_response).to be_an(Hash)
         expect(merchant_response[:data].empty?).to be true
       end
@@ -81,7 +80,7 @@ RSpec.describe 'Merchants API | Find' do
       end
 
       xit 'throws an error if param is empty' do
-        get api_v1_merchants_find_path(query: '?name=')
+        get api_v1_merchants_find_path(name: '')
         expect(response.successful?).to eq false
         expect(response).to have_http_status(400)
 
@@ -100,7 +99,7 @@ RSpec.describe 'Merchants API | Find' do
       end
 
       xit 'throws an error if name and min_price are sent' do
-        get api_v1_merchants_find_path(query: '?name=ring&min_price=50')
+        get api_v1_merchants_find_path(name: 'ring&min_price=50')
         expect(response.successful?).to eq false
         expect(response).to have_http_status(400)
 
@@ -119,7 +118,7 @@ RSpec.describe 'Merchants API | Find' do
       end
 
       xit 'throws an error if name and max_price are sent' do
-        get api_v1_merchants_find_path(query: '?name=ring&max_price=50')
+        get api_v1_merchants_find_path(name: 'ring&max_price=50')
         expect(response.successful?).to eq false
         expect(response).to have_http_status(400)
 
@@ -138,7 +137,7 @@ RSpec.describe 'Merchants API | Find' do
       end
 
       xit 'throws an error if name, min_price, and max_price are sent' do
-        get api_v1_merchants_find_path(query: '?name=ring&min_price=50&max_price=250')
+        get api_v1_merchants_find_path(name: 'ring&min_price=50&max_price=250')
         expect(response.successful?).to eq false
         expect(response).to have_http_status(400)
 

@@ -11,7 +11,7 @@ module Api
         private
 
         def query_params
-          params.require(:query)
+          params.require(:name)
         end
       end
     end
