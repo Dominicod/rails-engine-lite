@@ -19,6 +19,11 @@ module Api
         Item.destroy(params[:id])
       end
 
+      def update
+        Merchant.find(params.dig(:item, :merchant_id)) if params.dig(:item, :merchant_id)
+        render json: ItemSerializer.new(Item.update(params[:id], item_params))
+      end
+
       private
 
       def item_params

@@ -2,12 +2,13 @@
 
 require 'rails_helper'
 
-RSpec.describe 'Items API | Create' do
-  describe 'Item Create' do
+RSpec.describe 'Items API | Update' do
+  describe 'Item Update' do
     context('Happy Path') do
       let(:merchant) { create(:merchant) }
+      before(:each) { @item = create(:item, merchant_id: merchant.id) }
 
-      it 'creates a new item' do
+      it 'updates a item' do
         item_params = {
           name: 'Ruby',
           description: 'Does cool things',
@@ -16,12 +17,12 @@ RSpec.describe 'Items API | Create' do
         }
         headers = { CONTENT_TYPE: 'application/json' }
 
-        post api_v1_items_path, headers: headers, params: JSON.generate(item: item_params)
+        put api_v1_item_path(@item), headers: headers, params: JSON.generate(item: item_params)
 
         item = Item.last
 
         expect(response.successful?).to eq true
-        expect(response).to have_http_status(201)
+        expect(response).to have_http_status(200)
 
         item_response = JSON.parse(response.body, symbolize_names: true)[:data]
 
@@ -54,7 +55,7 @@ RSpec.describe 'Items API | Create' do
         }
         headers = { content_type: 'application/json' }
 
-        post api_v1_items_path, headers: headers, params: JSON.generate(item: item_params)
+        put api_v1_item_path(@item), headers: headers, params: JSON.generate(item: item_params)
         expect(response.successful?).to eq false
         # expect(response).to have_http_status()
       end
