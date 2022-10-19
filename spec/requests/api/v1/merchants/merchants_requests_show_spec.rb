@@ -60,9 +60,8 @@ RSpec.describe 'Merchants API | Show' do
     end
 
     context('Edge Case') do
-      xit 'returns error message if :id is not found' do
+      it 'returns error message if :id is not found' do
         get api_v1_merchant_path(40)
-
         expect(response.successful?).to eq false
         # expect(response).to have_http_status()
 

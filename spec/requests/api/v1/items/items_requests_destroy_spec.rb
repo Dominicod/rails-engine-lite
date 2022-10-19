@@ -37,18 +37,29 @@ RSpec.describe 'Items API | Destroy' do
         expect(response).to have_http_status(204)
 
         expect { Item.find(item.id) }.to raise_error(ActiveRecord::RecordNotFound)
-        expect { Invoice.find(invoice_id) }.to_not raise_error(ActiveRecord::RecordNotFound)
+        expect { Invoice.find(invoice_id) }.to_not raise_error
       end
     end
 
     context('Edge Case') do
-      xit 'returns error message if :id is not found' do
+      it 'returns error message if :id is not found' do
         get api_v1_item_path(40)
 
         expect(response.successful?).to eq false
+        expect(response).to have_http_status(404)
 
-        item_response = JSON.parse(response.body, symbolize_names: true)
-        # expect(response).to have_http_status()
+        error_response = JSON.parse(response.body, symbolize_names: true)
+
+        expect(error_response.count).to eq 2
+        expect(error_response).to have_key(:message)
+        expect(error_response).to have_key(:errors)
+        expect(error_response[:errors][0].count).to eq 3
+        expect(error_response[:errors][0]).to have_key(:status)
+        expect(error_response[:errors][0]).to have_key(:title)
+        expect(error_response[:errors][0]).to have_key(:detail)
+        expect(error_response[:errors][0][:status]).to eq '404'
+        expect(error_response[:errors][0][:title]).to eq 'Not Found'
+        expect(error_response[:errors][0][:detail]).to eq "Couldn't find Item with 'id'=40"
       end
     end
   end

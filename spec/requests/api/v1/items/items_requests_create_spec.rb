@@ -4,9 +4,8 @@ require 'rails_helper'
 
 RSpec.describe 'Items API | Create' do
   describe 'Item Create' do
+    let(:merchant) { create(:merchant) }
     context('Happy Path') do
-      let(:merchant) { create(:merchant) }
-
       it 'creates a new item' do
         item_params = {
           name: 'Ruby',
@@ -46,17 +45,31 @@ RSpec.describe 'Items API | Create' do
     end
 
     context('Edge Case') do
-      xit 'returns error message if missing attributes' do
+      it 'returns error message if missing attributes' do
         item_params = {
           name: 'Ruby',
           description: 'Does cool things',
           merchant_id: merchant.id
         }
-        headers = { content_type: 'application/json' }
+        headers = { CONTENT_TYPE: 'application/json' }
 
         post api_v1_items_path, headers: headers, params: JSON.generate(item: item_params)
+
         expect(response.successful?).to eq false
-        # expect(response).to have_http_status()
+        expect(response).to have_http_status(422)
+
+        error_response = JSON.parse(response.body, symbolize_names: true)
+
+        expect(error_response.count).to eq 2
+        expect(error_response).to have_key(:message)
+        expect(error_response).to have_key(:errors)
+        expect(error_response[:errors][0].count).to eq 3
+        expect(error_response[:errors][0]).to have_key(:status)
+        expect(error_response[:errors][0]).to have_key(:title)
+        expect(error_response[:errors][0]).to have_key(:detail)
+        expect(error_response[:errors][0][:status]).to eq '422'
+        expect(error_response[:errors][0][:title]).to eq 'Unprocessable Entity'
+        expect(error_response[:errors][0][:detail]).to eq ["Unit price can't be blank"]
       end
     end
   end
