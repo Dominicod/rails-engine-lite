@@ -13,7 +13,7 @@ RSpec.describe 'Merchants API | Find' do
       end
 
       it 'returns requested merchant with ?name param' do
-        get api_v1_merchants_find_index_path(query: '?name=ring')
+        get api_v1_merchants_find_path(query: '?name=ring')
         expect(response).to be_successful
         expect(response).to have_http_status(200)
 
@@ -22,7 +22,7 @@ RSpec.describe 'Merchants API | Find' do
       end
 
       it 'merchants values are correct types and values' do
-        get api_v1_merchants_find_index_path(query: '?name=ring')
+        get api_v1_merchants_find_path(query: '?name=ring')
         expect(response.successful?).to eq true
         expect(response).to have_http_status(200)
 
@@ -47,7 +47,7 @@ RSpec.describe 'Merchants API | Find' do
 
     context('Sad Path') do
       it 'returns empty array if no merchants found' do
-        get api_v1_merchants_find_index_path(query: '?name=ring')
+        get api_v1_merchants_find_path(query: '?name=ring')
         expect(response.successful?).to eq true
         expect(response).to have_http_status(200)
 
