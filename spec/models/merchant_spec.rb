@@ -19,7 +19,7 @@ RSpec.describe Merchant, type: :model do
     describe '.find_by_name' do
       it 'should return a single merchant with given param name' do
         create_list(:merchant, 10)
-        merchant = create(:merchant, name: 'boring')
+        merchant = create(:merchant, name: 'aring')
         create(:merchant, name: 'thering')
         create(:merchant, name: 'ringbewildin')
 

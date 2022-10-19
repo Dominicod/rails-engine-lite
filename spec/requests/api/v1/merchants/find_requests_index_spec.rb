@@ -7,7 +7,7 @@ RSpec.describe 'Merchants API | Find' do
     context('Happy Path') do
       before(:each) do
         create_list(:merchant, 10)
-        @merchant = create(:merchant, name: 'boring')
+        @merchant = create(:merchant, name: 'aring')
         create(:merchant, name: 'thering')
         create(:merchant, name: 'ringbewildin')
       end

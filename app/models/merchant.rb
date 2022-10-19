@@ -10,6 +10,6 @@ class Merchant < ApplicationRecord
   validates :name, presence: true
 
   def self.find_by_name(params)
-    binding.pry
+    where('name LIKE ?', "%#{params}%").order(:name).first
   end
 end
