@@ -6,6 +6,9 @@ Rails.application.routes.draw do
       resources :merchants, only: %i[index show] do
         resources :items, module: :merchants, only: %i[index]
       end
+      namespace :merchants do
+        resources :find, only: %i[index]
+      end
       resources :items do
         resources :merchant, module: :items, only: %i[index]
       end
