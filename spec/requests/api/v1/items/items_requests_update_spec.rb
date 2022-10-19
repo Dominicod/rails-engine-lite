@@ -6,18 +6,18 @@ RSpec.describe 'Items API | Update' do
   describe 'Item Update' do
     context('Happy Path') do
       let(:merchant) { create(:merchant) }
-      before(:each) { create(:item, merchant_id: merchant.id) }
+      before(:each) { @item = create(:item, merchant_id: merchant.id) }
 
       it 'updates a item' do
         item_params = {
           name: 'Ruby',
           description: 'Does cool things',
           unit_price: 99.99,
-          merchant_id: 6
+          merchant_id: merchant.id
         }
         headers = { CONTENT_TYPE: 'application/json' }
 
-        put api_v1_items_path, headers: headers, params: JSON.generate(item: item_params)
+        put api_v1_item_path(@item), headers: headers, params: JSON.generate(item: item_params)
 
         item = Item.last
 
@@ -51,11 +51,11 @@ RSpec.describe 'Items API | Update' do
         item_params = {
           name: 'Ruby',
           description: 'Does cool things',
-          merchant_id: 6
+          merchant_id: merchant.id
         }
         headers = { content_type: 'application/json' }
 
-        post api_v1_items_path, headers: headers, params: JSON.generate(item: item_params)
+        put api_v1_item_path(@item), headers: headers, params: JSON.generate(item: item_params)
         expect(response.successful?).to eq false
         # expect(response).to have_http_status()
       end
