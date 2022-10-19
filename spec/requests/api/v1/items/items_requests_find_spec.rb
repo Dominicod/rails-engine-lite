@@ -70,7 +70,7 @@ RSpec.describe 'Items API | Find' do
           expect(response).to have_http_status(200)
 
           items_response = JSON.parse(response.body, symbolize_names: true)
-          items = [@item_1, @item_2, @item_5]
+          items = [@item_5, @item_1, @item_2]
 
           items_response[:data].each_with_index do |item, index|
             # Check return length
@@ -111,7 +111,7 @@ RSpec.describe 'Items API | Find' do
           expect(response).to have_http_status(200)
 
           items_response = JSON.parse(response.body, symbolize_names: true)
-          items = [@item_1, @item_3, @item_4, @item_5]
+          items = [@item_4, @item_3, @item_5, @item_1]
 
           items_response[:data].each_with_index do |item, index|
             # Check return length
@@ -152,7 +152,7 @@ RSpec.describe 'Items API | Find' do
           expect(response).to have_http_status(200)
 
           items_response = JSON.parse(response.body, symbolize_names: true)
-          items = [@item_1, @item_2]
+          items = [@item_5, @item_1]
 
           items_response[:data].each_with_index do |item, index|
             # Check return length

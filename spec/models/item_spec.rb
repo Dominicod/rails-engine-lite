@@ -33,19 +33,19 @@ RSpec.describe Item, type: :model do
 
     describe '.find_by_min_max_price' do
       it 'should return all items within given param price' do
-        expect(Item.find_by_min_max_price(50, 101)).to eq [@item_1, @item_2]
+        expect(Item.find_by_min_max_price([50, 101])).to eq [@item_5, @item_1]
       end
     end
 
     describe '.find_by_min_price' do
       it 'should return all items within given param price' do
-        expect(Item.find_by_min_price(50)).to eq [@item_1, @item_2, @item_5]
+        expect(Item.find_by_min_price(50)).to eq [@item_5, @item_1, @item_2]
       end
     end
 
     describe '.find_by_max_price' do
       it 'should return all items within given param price' do
-        expect(Item.find_by_max_price(101)).to eq [@item_1, @item_3, @item_4, @item_5]
+        expect(Item.find_by_max_price(101)).to eq [@item_4, @item_3, @item_5, @item_1]
       end
     end
   end

@@ -16,6 +16,18 @@ class Item < ApplicationRecord
     where('name ILIKE ?', "%#{params}%").order(:name)
   end
 
+  def self.find_by_min_price(params)
+    where('unit_price >= ?', params).order(:name)
+  end
+
+  def self.find_by_max_price(params)
+    where('unit_price <= ?', params).order(:name)
+  end
+
+  def self.find_by_min_max_price(params)
+    where('unit_price >= ? AND unit_price <= ?', params[0], params[1]).order(:name)
+  end
+
   private
 
   def destroy_associations

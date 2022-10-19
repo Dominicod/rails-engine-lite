@@ -6,7 +6,7 @@ module Api
       class FindAllController < ApplicationController
         def index
           items = query_decision
-          if items.nil?
+          if items.nil? || items.empty?
             render json: empty_hash
           else
             render json: ItemSerializer.new(items)
@@ -34,11 +34,11 @@ module Api
           # Curious if there is a better way to do this that is DRY!
           return Item.find_by_name(query_params) if params[:name]
 
-          return Item.find_by_min_price(query_params) if params[:min_price] && params[:max_price]
+          return Item.find_by_min_max_price(query_params) if params[:min_price] && params[:max_price]
 
           return Item.find_by_max_price(query_params) if params[:max_price]
 
-          Item.find_by_max_min_price(query_params) if params[:min_price]
+          Item.find_by_min_price(query_params) if params[:min_price]
         end
       end
     end
