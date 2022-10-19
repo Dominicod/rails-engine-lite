@@ -4,10 +4,9 @@ require 'rails_helper'
 
 RSpec.describe 'Items API | Update' do
   describe 'Item Update' do
+    let(:merchant) { create(:merchant) }
+    before(:each) { @item = create(:item, merchant_id: merchant.id) }
     context('Happy Path') do
-      let(:merchant) { create(:merchant) }
-      before(:each) { @item = create(:item, merchant_id: merchant.id) }
-
       it 'updates a item' do
         item_params = {
           name: 'Ruby',
@@ -47,7 +46,7 @@ RSpec.describe 'Items API | Update' do
     end
 
     context('Edge Case') do
-      xit 'returns error message if missing attributes' do
+      it 'returns error message if missing attributes' do
         item_params = {
           name: 'Ruby',
           description: 'Does cool things',
@@ -56,8 +55,22 @@ RSpec.describe 'Items API | Update' do
         headers = { content_type: 'application/json' }
 
         put api_v1_item_path(@item), headers: headers, params: JSON.generate(item: item_params)
+
         expect(response.successful?).to eq false
-        # expect(response).to have_http_status()
+        expect(response).to have_http_status(400)
+
+        error_response = JSON.parse(response.body, symbolize_names: true)
+
+        expect(error_response.count).to eq 2
+        expect(error_response).to have_key(:message)
+        expect(error_response).to have_key(:errors)
+        expect(error_response[:errors][0].count).to eq 3
+        expect(error_response[:errors][0]).to have_key(:status)
+        expect(error_response[:errors][0]).to have_key(:title)
+        expect(error_response[:errors][0]).to have_key(:detail)
+        expect(error_response[:errors][0][:status]).to eq '400'
+        expect(error_response[:errors][0][:title]).to eq 'Bad Request'
+        expect(error_response[:errors][0][:detail]).to eq 'param is missing or the value is empty: item'
       end
     end
   end

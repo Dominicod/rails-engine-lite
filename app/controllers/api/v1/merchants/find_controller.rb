@@ -5,10 +5,19 @@ module Api
     module Merchants
       class FindController < ApplicationController
         def index
-          render json: MerchantSerializer.new(Merchant.find_by_name(query_params))
+          merchant = Merchant.find_by_name(query_params)
+          if merchant.nil?
+            render json: empty_hash
+          else
+            render json: MerchantSerializer.new(merchant)
+          end
         end
 
         private
+
+        def empty_hash
+          { data: {} }
+        end
 
         def query_params
           params.require(:name)
