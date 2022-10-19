@@ -37,7 +37,7 @@ RSpec.describe 'Items API | Destroy' do
         expect(response).to have_http_status(204)
 
         expect { Item.find(item.id) }.to raise_error(ActiveRecord::RecordNotFound)
-        expect { Invoice.find(invoice_id) }.to_not raise_error(ActiveRecord::RecordNotFound)
+        expect { Invoice.find(invoice_id) }.to_not raise_error
       end
     end
 
