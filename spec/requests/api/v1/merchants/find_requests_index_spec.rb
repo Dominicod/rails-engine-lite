@@ -94,63 +94,6 @@ RSpec.describe 'Merchants API | Find' do
         expect(error_response[:errors][0][:title]).to eq 'Bad Request'
         expect(error_response[:errors][0][:detail]).to eq 'param is missing or the value is empty: name'
       end
-
-      xit 'throws an error if name and min_price are sent' do
-        get api_v1_merchants_find_path(name: 'ring&min_price=50')
-        expect(response.successful?).to eq false
-        expect(response).to have_http_status(400)
-
-        error_response = JSON.parse(response.body, symbolize_names: true)
-
-        expect(error_response.count).to eq 2
-        expect(error_response).to have_key(:message)
-        expect(error_response).to have_key(:errors)
-        expect(error_response[:errors][0].count).to eq 3
-        expect(error_response[:errors][0]).to have_key(:status)
-        expect(error_response[:errors][0]).to have_key(:title)
-        expect(error_response[:errors][0]).to have_key(:detail)
-        expect(error_response[:errors][0][:status]).to eq ''
-        expect(error_response[:errors][0][:title]).to eq ''
-        expect(error_response[:errors][0][:detail]).to eq ''
-      end
-
-      xit 'throws an error if name and max_price are sent' do
-        get api_v1_merchants_find_path(name: 'ring&max_price=50')
-        expect(response.successful?).to eq false
-        expect(response).to have_http_status(400)
-
-        error_response = JSON.parse(response.body, symbolize_names: true)
-
-        expect(error_response.count).to eq 2
-        expect(error_response).to have_key(:message)
-        expect(error_response).to have_key(:errors)
-        expect(error_response[:errors][0].count).to eq 3
-        expect(error_response[:errors][0]).to have_key(:status)
-        expect(error_response[:errors][0]).to have_key(:title)
-        expect(error_response[:errors][0]).to have_key(:detail)
-        expect(error_response[:errors][0][:status]).to eq ''
-        expect(error_response[:errors][0][:title]).to eq ''
-        expect(error_response[:errors][0][:detail]).to eq ''
-      end
-
-      xit 'throws an error if name, min_price, and max_price are sent' do
-        get api_v1_merchants_find_path(name: 'ring&min_price=50&max_price=250')
-        expect(response.successful?).to eq false
-        expect(response).to have_http_status(400)
-
-        error_response = JSON.parse(response.body, symbolize_names: true)
-
-        expect(error_response.count).to eq 2
-        expect(error_response).to have_key(:message)
-        expect(error_response).to have_key(:errors)
-        expect(error_response[:errors][0].count).to eq 3
-        expect(error_response[:errors][0]).to have_key(:status)
-        expect(error_response[:errors][0]).to have_key(:title)
-        expect(error_response[:errors][0]).to have_key(:detail)
-        expect(error_response[:errors][0][:status]).to eq ''
-        expect(error_response[:errors][0][:title]).to eq ''
-        expect(error_response[:errors][0][:detail]).to eq ''
-      end
     end
   end
 end

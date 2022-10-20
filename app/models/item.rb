@@ -12,9 +12,27 @@ class Item < ApplicationRecord
   validates :unit_price, presence: true
   validates :merchant_id, presence: true
 
+  def self.find_by_name(params)
+    where('name ILIKE ?', "%#{params}%").order(:name)
+  end
+
+  def self.find_by_min_price(params)
+    where('unit_price >= ?', params).order(:name)
+  end
+
+  def self.find_by_max_price(params)
+    where('unit_price <= ?', params).order(:name)
+  end
+
+  def self.find_by_min_max_price(params)
+    where('unit_price >= ? AND unit_price <= ?', params[0], params[1]).order(:name)
+  end
+
   private
 
   def destroy_associations
-    invoices.each { |invoice| invoice.destroy if invoice.items.count == 1 }
+    invoices.each do |invoice|
+      invoice.destroy if invoice.items.count == 1 && invoice.items[0].id == id
+    end
   end
 end

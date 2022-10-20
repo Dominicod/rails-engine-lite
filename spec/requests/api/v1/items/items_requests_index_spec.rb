@@ -19,6 +19,7 @@ RSpec.describe 'Items API | Index' do
       it 'items values are correct types' do
         get api_v1_items_path
         expect(response.successful?).to eq true
+        expect(response).to have_http_status(200)
 
         items_response = JSON.parse(response.body, symbolize_names: true)
 
