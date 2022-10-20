@@ -5,7 +5,7 @@ require 'rails_helper'
 RSpec.describe 'Items API | Index' do
   describe 'Item Index' do
     context('Happy Path') do
-      before(:each) { create_list(:item, 10) }
+      let!(:load_objects) { create_list(:item, 10) }
 
       it 'returns all items' do
         get api_v1_items_path

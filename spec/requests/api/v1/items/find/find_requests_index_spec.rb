@@ -5,7 +5,7 @@ require 'rails_helper'
 RSpec.describe 'Items API | Find' do
   describe 'Item Find' do
     context('Happy Path') do
-      before(:each) do
+      let!(:load_objects) do
         @item_1 = create(:item, name: 'boring', unit_price: 50.00)
         @item_2 = create(:item, name: 'ringmates', unit_price: 120.50)
         @item_3 = create(:item, name: 'The Ring Store', unit_price: 10.11)
@@ -20,7 +20,7 @@ RSpec.describe 'Items API | Find' do
           expect(response).to have_http_status(200)
 
           item_response = JSON.parse(response.body, symbolize_names: true)
-          expect(item_response[:data].count).to eq 1
+          expect(item_response[:data].count).to eq 3
         end
 
         it 'items values are correct types and values' do
@@ -28,14 +28,14 @@ RSpec.describe 'Items API | Find' do
           expect(response.successful?).to eq true
           expect(response).to have_http_status(200)
 
-          item_response = JSON.parse(response.body, symbolize_names: true)
+          item_response = JSON.parse(response.body, symbolize_names: true)[:data]
 
           # Check return length
           expect(item_response.count).to eq 3
           expect(item_response[:attributes].count).to eq 4
 
           expect(item_response).to have_key(:id)
-          expect(item_response[:id]).to eq @item_1.id.to_s
+          expect(item_response[:id]).to eq @item_3.id.to_s
           expect(item_response).to have_key(:type)
           expect(item_response[:type]).to be_an(String)
           expect(item_response).to have_key(:attributes)
@@ -44,10 +44,10 @@ RSpec.describe 'Items API | Find' do
           expect(item_response[:attributes]).to have_key(:description)
           expect(item_response[:attributes]).to have_key(:unit_price)
           expect(item_response[:attributes]).to have_key(:merchant_id)
-          expect(item_response.dig(:attributes, :name)).to eq @item_1.name
-          expect(item_response.dig(:attributes, :description)).to eq @item_1.description
-          expect(item_response.dig(:attributes, :unit_price)).to eq @item_1.unit_price
-          expect(item_response.dig(:attributes, :merchant_id)).to eq @item_1.merchant_id
+          expect(item_response.dig(:attributes, :name)).to eq @item_3.name
+          expect(item_response.dig(:attributes, :description)).to eq @item_3.description
+          expect(item_response.dig(:attributes, :unit_price)).to eq @item_3.unit_price
+          expect(item_response.dig(:attributes, :merchant_id)).to eq @item_3.merchant_id
         end
       end
 
@@ -58,7 +58,7 @@ RSpec.describe 'Items API | Find' do
           expect(response).to have_http_status(200)
 
           item_response = JSON.parse(response.body, symbolize_names: true)
-          expect(item_response[:data].count).to eq 1
+          expect(item_response[:data].count).to eq 3
         end
 
         it 'items values are correct types and values' do
@@ -66,14 +66,14 @@ RSpec.describe 'Items API | Find' do
           expect(response.successful?).to eq true
           expect(response).to have_http_status(200)
 
-          item_response = JSON.parse(response.body, symbolize_names: true)
+          item_response = JSON.parse(response.body, symbolize_names: true)[:data]
 
           # Check return length
           expect(item_response.count).to eq 3
           expect(item_response[:attributes].count).to eq 4
 
           expect(item_response).to have_key(:id)
-          expect(item_response[:id]).to eq @item_2.id.to_s
+          expect(item_response[:id]).to eq @item_5.id.to_s
           expect(item_response).to have_key(:type)
           expect(item_response[:type]).to be_an(String)
           expect(item_response).to have_key(:attributes)
@@ -82,10 +82,10 @@ RSpec.describe 'Items API | Find' do
           expect(item_response[:attributes]).to have_key(:description)
           expect(item_response[:attributes]).to have_key(:unit_price)
           expect(item_response[:attributes]).to have_key(:merchant_id)
-          expect(item_response.dig(:attributes, :name)).to eq @item_2.name
-          expect(item_response.dig(:attributes, :description)).to eq @item_2.description
-          expect(item_response.dig(:attributes, :unit_price)).to eq @item_2.unit_price
-          expect(item_response.dig(:attributes, :merchant_id)).to eq @item_2.merchant_id
+          expect(item_response.dig(:attributes, :name)).to eq @item_5.name
+          expect(item_response.dig(:attributes, :description)).to eq @item_5.description
+          expect(item_response.dig(:attributes, :unit_price)).to eq @item_5.unit_price
+          expect(item_response.dig(:attributes, :merchant_id)).to eq @item_5.merchant_id
         end
       end
 
@@ -96,7 +96,7 @@ RSpec.describe 'Items API | Find' do
           expect(response).to have_http_status(200)
 
           item_response = JSON.parse(response.body, symbolize_names: true)
-          expect(item_response[:data].count).to eq 1
+          expect(item_response[:data].count).to eq 3
         end
 
         it 'items values are correct types and values' do
@@ -104,45 +104,7 @@ RSpec.describe 'Items API | Find' do
           expect(response.successful?).to eq true
           expect(response).to have_http_status(200)
 
-          item_response = JSON.parse(response.body, symbolize_names: true)
-
-          # Check return length
-          expect(item_response.count).to eq 3
-          expect(item_response[:attributes].count).to eq 4
-
-          expect(item_response).to have_key(:id)
-          expect(item_response[:id]).to eq @item_1.id.to_s
-          expect(item_response).to have_key(:type)
-          expect(item_response[:type]).to be_an(String)
-          expect(item_response).to have_key(:attributes)
-          expect(item_response[:attributes]).to be_an(Hash)
-          expect(item_response[:attributes]).to have_key(:name)
-          expect(item_response[:attributes]).to have_key(:description)
-          expect(item_response[:attributes]).to have_key(:unit_price)
-          expect(item_response[:attributes]).to have_key(:merchant_id)
-          expect(item_response.dig(:attributes, :name)).to eq @item_1.name
-          expect(item_response.dig(:attributes, :description)).to eq @item_1.description
-          expect(item_response.dig(:attributes, :unit_price)).to eq @item_1.unit_price
-          expect(item_response.dig(:attributes, :merchant_id)).to eq @item_1.merchant_id
-        end
-      end
-
-      context 'Maximum + Minimum Price Parameter' do
-        it 'returns all items with given min_price param' do
-          get api_v1_items_find_path(min_price: '10', max_price: '30')
-          expect(response).to be_successful
-          expect(response).to have_http_status(200)
-
-          items_response = JSON.parse(response.body, symbolize_names: true)
-          expect(items_response[:data].count).to eq 1
-        end
-
-        it 'items values are correct types and values' do
-          get api_v1_items_find_path(min_price: '50', max_price: '101.00')
-          expect(response.successful?).to eq true
-          expect(response).to have_http_status(200)
-
-          item_response = JSON.parse(response.body, symbolize_names: true)
+          item_response = JSON.parse(response.body, symbolize_names: true)[:data]
 
           # Check return length
           expect(item_response.count).to eq 3
@@ -162,6 +124,44 @@ RSpec.describe 'Items API | Find' do
           expect(item_response.dig(:attributes, :description)).to eq @item_4.description
           expect(item_response.dig(:attributes, :unit_price)).to eq @item_4.unit_price
           expect(item_response.dig(:attributes, :merchant_id)).to eq @item_4.merchant_id
+        end
+      end
+
+      context 'Maximum + Minimum Price Parameter' do
+        it 'returns all items with given min_price param' do
+          get api_v1_items_find_path(min_price: '10', max_price: '30')
+          expect(response).to be_successful
+          expect(response).to have_http_status(200)
+
+          items_response = JSON.parse(response.body, symbolize_names: true)
+          expect(items_response[:data].count).to eq 3
+        end
+
+        it 'items values are correct types and values' do
+          get api_v1_items_find_path(min_price: '50', max_price: '101.00')
+          expect(response.successful?).to eq true
+          expect(response).to have_http_status(200)
+
+          item_response = JSON.parse(response.body, symbolize_names: true)[:data]
+
+          # Check return length
+          expect(item_response.count).to eq 3
+          expect(item_response[:attributes].count).to eq 4
+
+          expect(item_response).to have_key(:id)
+          expect(item_response[:id]).to eq @item_5.id.to_s
+          expect(item_response).to have_key(:type)
+          expect(item_response[:type]).to be_an(String)
+          expect(item_response).to have_key(:attributes)
+          expect(item_response[:attributes]).to be_an(Hash)
+          expect(item_response[:attributes]).to have_key(:name)
+          expect(item_response[:attributes]).to have_key(:description)
+          expect(item_response[:attributes]).to have_key(:unit_price)
+          expect(item_response[:attributes]).to have_key(:merchant_id)
+          expect(item_response.dig(:attributes, :name)).to eq @item_5.name
+          expect(item_response.dig(:attributes, :description)).to eq @item_5.description
+          expect(item_response.dig(:attributes, :unit_price)).to eq @item_5.unit_price
+          expect(item_response.dig(:attributes, :merchant_id)).to eq @item_5.merchant_id
         end
       end
     end
@@ -213,12 +213,12 @@ RSpec.describe 'Items API | Find' do
     end
 
     context 'Edge Case' do
-      before(:each) do
-        @item_1 = create(:item, name: 'boring')
-        @item_2 = create(:item, name: 'ringmates')
-        @item_3 = create(:item, name: 'The Ring Store')
-        @item_4 = create(:item, name: "Dominic's Shop")
-        @item_5 = create(:item, name: 'Unlimited Creativity')
+      let!(:load_objects) do
+        @item_1 = create(:item, name: 'boring', unit_price: 50.00)
+        @item_2 = create(:item, name: 'ringmates', unit_price: 120.50)
+        @item_3 = create(:item, name: 'The Ring Store', unit_price: 10.11)
+        @item_4 = create(:item, name: "Dominic's Shop", unit_price: 25.25)
+        @item_5 = create(:item, name: 'Unlimited Creativity', unit_price: 101.00)
       end
 
       it 'throws an error if no params present' do

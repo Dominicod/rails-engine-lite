@@ -17,7 +17,7 @@ RSpec.describe Item, type: :model do
   end
 
   describe 'class methods' do
-    before(:each) do
+    let!(:load_objects) do
       @item_1 = create(:item, name: 'boring', unit_price: 50.00)
       @item_2 = create(:item, name: 'ringmates', unit_price: 120.50)
       @item_3 = create(:item, name: 'The Ring Store', unit_price: 10.11)

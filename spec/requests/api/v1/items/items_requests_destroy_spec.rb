@@ -5,7 +5,7 @@ require 'rails_helper'
 RSpec.describe 'Items API | Destroy' do
   describe 'Item Destroy' do
     context('Happy Path') do
-      before(:each) { @item = create(:invoice_item).item }
+      let!(:load_objects) { @item = create(:invoice_item).item }
 
       it 'destroys a newly created item' do
         expect { delete api_v1_item_path(@item) }.to change(Item, :count).by(-1)

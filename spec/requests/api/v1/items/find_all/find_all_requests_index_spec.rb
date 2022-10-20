@@ -5,7 +5,7 @@ require 'rails_helper'
 RSpec.describe 'Items API | Find All' do
   describe 'Item Find All' do
     context('Happy Path') do
-      before(:each) do
+      let!(:load_objects) do
         @item_1 = create(:item, name: 'boring', unit_price: 50.00)
         @item_2 = create(:item, name: 'ringmates', unit_price: 120.50)
         @item_3 = create(:item, name: 'The Ring Store', unit_price: 10.11)
@@ -225,12 +225,12 @@ RSpec.describe 'Items API | Find All' do
     end
 
     context 'Edge Case' do
-      before(:each) do
-        @item_1 = create(:item, name: 'boring')
-        @item_2 = create(:item, name: 'ringmates')
-        @item_3 = create(:item, name: 'The Ring Store')
-        @item_4 = create(:item, name: "Dominic's Shop")
-        @item_5 = create(:item, name: 'Unlimited Creativity')
+      let!(:load_objects) do
+        @item_1 = create(:item, name: 'boring', unit_price: 50.00)
+        @item_2 = create(:item, name: 'ringmates', unit_price: 120.50)
+        @item_3 = create(:item, name: 'The Ring Store', unit_price: 10.11)
+        @item_4 = create(:item, name: "Dominic's Shop", unit_price: 25.25)
+        @item_5 = create(:item, name: 'Unlimited Creativity', unit_price: 101.00)
       end
 
       it 'throws an error if no params present' do

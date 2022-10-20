@@ -39,4 +39,22 @@ class ApplicationController < ActionController::API
   def error_message(error)
     { message: 'your query could not be completed', errors: [error] }
   end
+
+  def query_params
+    # Curious if there is a better way to do this that is DRY!
+    return params.require(:name) if params[:name]
+
+    return [params.require(:min_price), params.require(:max_price)] if params[:min_price] && params[:max_price]
+
+    return params.require(:min_price) if params[:min_price]
+
+    params.require(:max_price) if params[:max_price]
+  end
+
+  def error_handler
+    if params[:name] && (params[:min_price] || params[:max_price]) || query_params.nil?
+      raise ActiveRecord::StatementInvalid, 'Incorrect usage of params'; end
+    if params[:min_price].to_i.negative? || params[:max_price].to_i.negative?
+      raise ActiveRecord::StatementInvalid, 'Price cannot be less than zero'; end
+  end
 end

@@ -5,7 +5,7 @@ require 'rails_helper'
 RSpec.describe 'Items API | Update' do
   describe 'Item Update' do
     let(:merchant) { create(:merchant) }
-    before(:each) { @item = create(:item, merchant_id: merchant.id) }
+    let!(:load_object) { @item = create(:item, merchant_id: merchant.id) }
     context('Happy Path') do
       it 'updates a item' do
         item_params = {

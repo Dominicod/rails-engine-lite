@@ -5,7 +5,7 @@ require 'rails_helper'
 RSpec.describe 'Items API | Show' do
   describe 'Item Show' do
     context('Happy Path') do
-      before(:each) { @item = create(:item) }
+      let!(:load_object) { @item = create(:item) }
       let(:merchant) { @item.merchant }
 
       it 'returns correct items of given :id' do
