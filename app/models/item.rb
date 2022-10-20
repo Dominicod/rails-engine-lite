@@ -12,10 +12,26 @@ class Item < ApplicationRecord
   validates :unit_price, presence: true
   validates :merchant_id, presence: true
 
-  scope :find_by_name, ->(params) { where('name ILIKE ?', "%#{params}%").order(:name) }
-  scope :find_by_min_price, ->(params) { where('unit_price >= ?', params).order(:name) }
-  scope :find_by_max_price, ->(params) { where('unit_price <= ?', params).order(:name) }
-  scope :find_by_min_max_price, ->(params) { where('unit_price >= ? AND unit_price <= ?', params[0], params[1]).order(:name) }
+  scope :find_all_by_name, ->(params) { where('name ILIKE ?', "%#{params}%").order(:name) }
+  scope :find_all_by_min_price, ->(params) { where('unit_price >= ?', params).order(:name) }
+  scope :find_all_by_max_price, ->(params) { where('unit_price <= ?', params).order(:name) }
+  scope :find_all_by_min_max_price, ->(params) { where('unit_price >= ? AND unit_price <= ?', params[0], params[1]).order(:name) }
+
+  def find_by_name(params)
+    find_all_by_name(params).first
+  end
+
+  def find_by_min_price(params)
+    find_all_by_min_price(params).first
+  end
+
+  def find_by_max_price(params)
+    find_all_by_max_price(params).first
+  end
+
+  def find_by_min_max_price(params)
+    find_all_by_min_max_price(params).first
+  end
 
   private
 
