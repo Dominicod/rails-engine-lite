@@ -5,7 +5,7 @@ require 'rails_helper'
 RSpec.describe 'Merchants API | Show' do
   describe 'Merchant Show' do
     context('Happy Path') do
-      before(:each) { @merchant = create(:merchant) }
+      let!(:load_object) { @merchant = create(:merchant) }
 
       it 'returns correct merchants of given :id' do
         get api_v1_merchant_path(@merchant.id)

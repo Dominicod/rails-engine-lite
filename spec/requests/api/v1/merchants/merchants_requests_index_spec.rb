@@ -5,7 +5,7 @@ require 'rails_helper'
 RSpec.describe 'Merchants API | Index' do
   describe 'Merchant Index' do
     context('Happy Path') do
-      before(:each) { create_list(:merchant, 10) }
+      let!(:load_object) { create_list(:merchant, 10) }
 
       it 'returns all merchants' do
         get api_v1_merchants_path

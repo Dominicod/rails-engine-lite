@@ -5,7 +5,7 @@ require 'rails_helper'
 RSpec.describe 'Merchants API | Find' do
   describe 'Merchant Find' do
     context('Happy Path') do
-      before(:each) do
+      let!(:load_objects) do
         create_list(:merchant, 10)
         @merchant = create(:merchant, name: 'aring')
         create(:merchant, name: 'thering')

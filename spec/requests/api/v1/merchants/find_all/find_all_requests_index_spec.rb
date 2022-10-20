@@ -2,16 +2,16 @@
 
 require 'rails_helper'
 
-RSpec.describe 'Merchants API | Find' do
-  describe 'Merchant Find' do
+RSpec.describe 'Merchants API | Find All' do
+  describe 'Merchant Find All' do
     context('Happy Path') do
-      before(:each) do
+      let!(:load_objects) do
         @merchant1 = create(:merchant, name: 'aring')
         @merchant2 = create(:merchant, name: 'thering')
         @merchant3 = create(:merchant, name: 'ringbewildin')
       end
 
-      it 'returns requested merchant with ?name param' do
+      it 'returns requested merchants with ?name param' do
         get api_v1_merchants_find_all_path(name: 'ring')
         expect(response).to be_successful
         expect(response).to have_http_status(200)
