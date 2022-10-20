@@ -51,7 +51,7 @@ RSpec.describe Item, type: :model do
 
     describe '.find_by_name' do
       it 'should return one item within given name param' do
-        expect(Item.find_by_name('ring')).to eq @item_1
+        expect(Item.find_by_name('ring')).to eq @item_3
       end
     end
 
@@ -63,13 +63,13 @@ RSpec.describe Item, type: :model do
 
     describe '.find_by_min_price' do
       it 'should return one item within given param price' do
-        expect(Item.find_by_min_price(60)).to eq @item_2
+        expect(Item.find_by_min_price(60)).to eq @item_5
       end
     end
 
     describe '.find_by_max_price' do
       it 'should return one item within given param price' do
-        expect(Item.find_by_max_price(101)).to eq @item_1
+        expect(Item.find_by_max_price(101)).to eq @item_4
       end
     end
   end
