@@ -334,6 +334,25 @@ RSpec.describe 'Items API | Find' do
         expect(error_response[:errors][0][:title]).to eq 'Bad Request'
         expect(error_response[:errors][0][:detail]).to eq 'Price cannot be less than zero'
       end
+
+      it 'throws an error if min_price is more than max_price' do
+        get api_v1_items_find_path(max_price: '50', min_price: '100')
+        expect(response.successful?).to eq false
+        expect(response).to have_http_status(400)
+
+        error_response = JSON.parse(response.body, symbolize_names: true)
+
+        expect(error_response.count).to eq 2
+        expect(error_response).to have_key(:message)
+        expect(error_response).to have_key(:errors)
+        expect(error_response[:errors][0].count).to eq 3
+        expect(error_response[:errors][0]).to have_key(:status)
+        expect(error_response[:errors][0]).to have_key(:title)
+        expect(error_response[:errors][0]).to have_key(:detail)
+        expect(error_response[:errors][0][:status]).to eq '400'
+        expect(error_response[:errors][0][:title]).to eq 'Bad Request'
+        expect(error_response[:errors][0][:detail]).to eq 'Pricing Invalid'
+      end
     end
   end
 end
