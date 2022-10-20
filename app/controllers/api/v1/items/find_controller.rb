@@ -9,7 +9,7 @@ module Api
 
           item = query_decision
           if item.nil?
-            render json: empty_arr
+            render json: empty_hash
           else
             render json: ItemSerializer.new(item)
           end
@@ -17,8 +17,8 @@ module Api
 
         private
 
-        def empty_arr
-          { data: [] }
+        def empty_hash
+          { data: {} }
         end
 
         def query_decision
