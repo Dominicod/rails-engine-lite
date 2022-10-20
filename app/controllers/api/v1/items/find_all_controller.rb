@@ -5,11 +5,11 @@ module Api
     module Items
       class FindAllController < ApplicationController
         def index
-          return error_handler if params[:name] && (params[:min_price] || params[:max_price])
+          return if error_handler
 
           items = query_decision
           if items.nil? || items.empty?
-            render json: empty_hash
+            render json: empty_arr
           else
             render json: ItemSerializer.new(items)
           end
@@ -17,8 +17,8 @@ module Api
 
         private
 
-        def empty_hash
-          { data: {} }
+        def empty_arr
+          { data: [] }
         end
 
         def query_params
@@ -44,9 +44,10 @@ module Api
         end
 
         def error_handler
-          raise e = StandardError.new('Cannot have name params and price params')
-        rescue StandardError
-          render_bad_request(e)
+          if params[:name] && (params[:min_price] || params[:max_price]) || query_params.nil?
+            raise ActiveRecord::StatementInvalid, 'Incorrect usage of params'; end
+          if params[:min_price].to_i.negative? || params[:max_price].to_i.negative?
+            raise ActiveRecord::StatementInvalid, 'Price cannot be less than zero'; end
         end
       end
     end

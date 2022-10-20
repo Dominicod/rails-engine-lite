@@ -233,6 +233,25 @@ RSpec.describe 'Items API | Find' do
         @item_5 = create(:item, name: 'Unlimited Creativity')
       end
 
+      it 'throws an error if no params present' do
+        get api_v1_items_find_all_path
+        expect(response.successful?).to eq false
+        expect(response).to have_http_status(400)
+
+        error_response = JSON.parse(response.body, symbolize_names: true)
+
+        expect(error_response.count).to eq 2
+        expect(error_response).to have_key(:message)
+        expect(error_response).to have_key(:errors)
+        expect(error_response[:errors][0].count).to eq 3
+        expect(error_response[:errors][0]).to have_key(:status)
+        expect(error_response[:errors][0]).to have_key(:title)
+        expect(error_response[:errors][0]).to have_key(:detail)
+        expect(error_response[:errors][0][:status]).to eq '400'
+        expect(error_response[:errors][0][:title]).to eq 'Bad Request'
+        expect(error_response[:errors][0][:detail]).to eq 'Incorrect usage of params'
+      end
+
       it 'throws an error if name and min_price are sent' do
         get api_v1_items_find_all_path(name: 'ring', min_price: '50')
         expect(response.successful?).to eq false
@@ -249,7 +268,7 @@ RSpec.describe 'Items API | Find' do
         expect(error_response[:errors][0]).to have_key(:detail)
         expect(error_response[:errors][0][:status]).to eq '400'
         expect(error_response[:errors][0][:title]).to eq 'Bad Request'
-        expect(error_response[:errors][0][:detail]).to eq 'Cannot have name params and price params'
+        expect(error_response[:errors][0][:detail]).to eq 'Incorrect usage of params'
       end
 
       it 'throws an error if name and max_price are sent' do
@@ -268,7 +287,7 @@ RSpec.describe 'Items API | Find' do
         expect(error_response[:errors][0]).to have_key(:detail)
         expect(error_response[:errors][0][:status]).to eq '400'
         expect(error_response[:errors][0][:title]).to eq 'Bad Request'
-        expect(error_response[:errors][0][:detail]).to eq 'Cannot have name params and price params'
+        expect(error_response[:errors][0][:detail]).to eq 'Incorrect usage of params'
       end
 
       it 'throws an error if name, min_price, and max_price are sent' do
@@ -287,7 +306,45 @@ RSpec.describe 'Items API | Find' do
         expect(error_response[:errors][0]).to have_key(:detail)
         expect(error_response[:errors][0][:status]).to eq '400'
         expect(error_response[:errors][0][:title]).to eq 'Bad Request'
-        expect(error_response[:errors][0][:detail]).to eq 'Cannot have name params and price params'
+        expect(error_response[:errors][0][:detail]).to eq 'Incorrect usage of params'
+      end
+
+      it 'throws an error if min_price is negative' do
+        get api_v1_items_find_all_path(min_price: '-5')
+        expect(response.successful?).to eq false
+        expect(response).to have_http_status(400)
+
+        error_response = JSON.parse(response.body, symbolize_names: true)
+
+        expect(error_response.count).to eq 2
+        expect(error_response).to have_key(:message)
+        expect(error_response).to have_key(:errors)
+        expect(error_response[:errors][0].count).to eq 3
+        expect(error_response[:errors][0]).to have_key(:status)
+        expect(error_response[:errors][0]).to have_key(:title)
+        expect(error_response[:errors][0]).to have_key(:detail)
+        expect(error_response[:errors][0][:status]).to eq '400'
+        expect(error_response[:errors][0][:title]).to eq 'Bad Request'
+        expect(error_response[:errors][0][:detail]).to eq 'Price cannot be less than zero'
+      end
+
+      it 'throws an error if max_price is negative' do
+        get api_v1_items_find_all_path(max_price: '-5')
+        expect(response.successful?).to eq false
+        expect(response).to have_http_status(400)
+
+        error_response = JSON.parse(response.body, symbolize_names: true)
+
+        expect(error_response.count).to eq 2
+        expect(error_response).to have_key(:message)
+        expect(error_response).to have_key(:errors)
+        expect(error_response[:errors][0].count).to eq 3
+        expect(error_response[:errors][0]).to have_key(:status)
+        expect(error_response[:errors][0]).to have_key(:title)
+        expect(error_response[:errors][0]).to have_key(:detail)
+        expect(error_response[:errors][0][:status]).to eq '400'
+        expect(error_response[:errors][0][:title]).to eq 'Bad Request'
+        expect(error_response[:errors][0][:detail]).to eq 'Price cannot be less than zero'
       end
     end
   end
