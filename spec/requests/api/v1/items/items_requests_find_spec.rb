@@ -55,7 +55,7 @@ RSpec.describe 'Items API | Find' do
       end
 
       context 'Minimum Price Parameter' do
-        xit 'returns all items with given min_price param' do
+        it 'returns all items with given min_price param' do
           get api_v1_items_find_all_path(min_price: '50')
           expect(response).to be_successful
           expect(response).to have_http_status(200)
@@ -64,7 +64,7 @@ RSpec.describe 'Items API | Find' do
           expect(items_response[:data].count).to eq 3
         end
 
-        xit 'items values are correct types and values' do
+        it 'items values are correct types and values' do
           get api_v1_items_find_all_path(min_price: '50')
           expect(response.successful?).to eq true
           expect(response).to have_http_status(200)
@@ -96,7 +96,7 @@ RSpec.describe 'Items API | Find' do
       end
 
       context 'Maximum Price Parameter' do
-        xit 'returns all items with given max_price param' do
+        it 'returns all items with given max_price param' do
           get api_v1_items_find_all_path(max_price: '101.00')
           expect(response).to be_successful
           expect(response).to have_http_status(200)
@@ -105,8 +105,8 @@ RSpec.describe 'Items API | Find' do
           expect(items_response[:data].count).to eq 4
         end
 
-        xit 'items values are correct types and values' do
-          get api_v1_items_find_all_path(max_price: 'ring')
+        it 'items values are correct types and values' do
+          get api_v1_items_find_all_path(max_price: '101.00')
           expect(response.successful?).to eq true
           expect(response).to have_http_status(200)
 
@@ -137,7 +137,7 @@ RSpec.describe 'Items API | Find' do
       end
 
       context 'Maximum + Minimum Price Parameter' do
-        xit 'returns all items with given min_price param' do
+        it 'returns all items with given min_price param' do
           get api_v1_items_find_all_path(min_price: '50', max_price: '101.00')
           expect(response).to be_successful
           expect(response).to have_http_status(200)
@@ -146,7 +146,7 @@ RSpec.describe 'Items API | Find' do
           expect(items_response[:data].count).to eq 2
         end
 
-        xit 'items values are correct types and values' do
+        it 'items values are correct types and values' do
           get api_v1_items_find_all_path(min_price: '50', max_price: '101.00')
           expect(response.successful?).to eq true
           expect(response).to have_http_status(200)
@@ -233,8 +233,8 @@ RSpec.describe 'Items API | Find' do
         @item_5 = create(:item, name: 'Unlimited Creativity')
       end
 
-      xit 'throws an error if name and min_price are sent' do
-        get api_v1_merchants_find_path(name: 'ring', min_price: '50')
+      it 'throws an error if name and min_price are sent' do
+        get api_v1_items_find_all_path(name: 'ring', min_price: '50')
         expect(response.successful?).to eq false
         expect(response).to have_http_status(400)
 
@@ -247,13 +247,13 @@ RSpec.describe 'Items API | Find' do
         expect(error_response[:errors][0]).to have_key(:status)
         expect(error_response[:errors][0]).to have_key(:title)
         expect(error_response[:errors][0]).to have_key(:detail)
-        expect(error_response[:errors][0][:status]).to eq ''
-        expect(error_response[:errors][0][:title]).to eq ''
-        expect(error_response[:errors][0][:detail]).to eq ''
+        expect(error_response[:errors][0][:status]).to eq '400'
+        expect(error_response[:errors][0][:title]).to eq 'Bad Request'
+        expect(error_response[:errors][0][:detail]).to eq 'Cannot have name params and price params'
       end
 
-      xit 'throws an error if name and max_price are sent' do
-        get api_v1_merchants_find_path(name: 'ring', max_price: '100')
+      it 'throws an error if name and max_price are sent' do
+        get api_v1_items_find_all_path(name: 'ring', max_price: '100')
         expect(response.successful?).to eq false
         expect(response).to have_http_status(400)
 
@@ -266,13 +266,13 @@ RSpec.describe 'Items API | Find' do
         expect(error_response[:errors][0]).to have_key(:status)
         expect(error_response[:errors][0]).to have_key(:title)
         expect(error_response[:errors][0]).to have_key(:detail)
-        expect(error_response[:errors][0][:status]).to eq ''
-        expect(error_response[:errors][0][:title]).to eq ''
-        expect(error_response[:errors][0][:detail]).to eq ''
+        expect(error_response[:errors][0][:status]).to eq '400'
+        expect(error_response[:errors][0][:title]).to eq 'Bad Request'
+        expect(error_response[:errors][0][:detail]).to eq 'Cannot have name params and price params'
       end
 
-      xit 'throws an error if name, min_price, and max_price are sent' do
-        get api_v1_merchants_find_path(name: 'ring', min_price: '50', max_price: '100')
+      it 'throws an error if name, min_price, and max_price are sent' do
+        get api_v1_items_find_all_path(name: 'ring', min_price: '50', max_price: '100')
         expect(response.successful?).to eq false
         expect(response).to have_http_status(400)
 
@@ -285,9 +285,9 @@ RSpec.describe 'Items API | Find' do
         expect(error_response[:errors][0]).to have_key(:status)
         expect(error_response[:errors][0]).to have_key(:title)
         expect(error_response[:errors][0]).to have_key(:detail)
-        expect(error_response[:errors][0][:status]).to eq ''
-        expect(error_response[:errors][0][:title]).to eq ''
-        expect(error_response[:errors][0][:detail]).to eq ''
+        expect(error_response[:errors][0][:status]).to eq '400'
+        expect(error_response[:errors][0][:title]).to eq 'Bad Request'
+        expect(error_response[:errors][0][:detail]).to eq 'Cannot have name params and price params'
       end
     end
   end

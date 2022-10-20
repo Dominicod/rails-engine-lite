@@ -5,6 +5,8 @@ module Api
     module Items
       class FindAllController < ApplicationController
         def index
+          return error_handler if params[:name] && (params[:min_price] || params[:max_price])
+
           items = query_decision
           if items.nil? || items.empty?
             render json: empty_hash
@@ -39,6 +41,12 @@ module Api
           return Item.find_by_max_price(query_params) if params[:max_price]
 
           Item.find_by_min_price(query_params) if params[:min_price]
+        end
+
+        def error_handler
+          raise e = StandardError.new('Cannot have name params and price params')
+        rescue StandardError
+          render_bad_request(e)
         end
       end
     end
