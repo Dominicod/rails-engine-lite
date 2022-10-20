@@ -49,4 +49,29 @@ RSpec.describe Item, type: :model do
       end
     end
   end
+
+  describe 'instance methods' do
+    describe '.destroy_associations' do
+      it 'removes all invoices if the invoice items count is == 1' do
+        item = create(:invoice_item).item
+        invoice_id = item.invoices[0].id
+
+        # Destroying a Item causes a before_destroy callback, calling .destroy_associations
+        Item.destroy(item.id)
+
+        expect(Invoice.all.count).to eq 0
+      end
+
+      it 'does not remove all invoices if invoice has more than one item' do
+        item = create(:invoice_item).item
+        invoice_id = item.invoices[0].id
+        create(:invoice_item, invoice_id: invoice_id)
+
+        # Destroying a Item causes a before_destroy callback, calling .destroy_associations
+        Item.destroy(item.id)
+
+        expect(Invoice.all.count).to eq 1
+      end
+    end
+  end
 end
