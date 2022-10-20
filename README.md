@@ -34,6 +34,9 @@ The API supports relationships between Merchants and Items, allowing you to grab
 
 ![database](images/db_schema.png)
 
+## Deployment
+- `rails s`
+
 ## Testing Instructions
 
 - Clone this repo
@@ -43,113 +46,337 @@ The API supports relationships between Merchants and Items, allowing you to grab
 
 ## End Points
 
-#### Add item to fridge
+#### Merchants
 
 ```
-get https://waste-no-more-fe.herokuapp.com/api/v1/items/create
+get http://localhost:3000/api/v1/merchants
+```
+*Will have more than 3 Merchants*
 ```
 
+{
+    "data": [
+        {
+            "id": "1",
+            "type": "merchant",
+            "attributes": {
+                "name": "Schroeder-Jerde"
+            }
+        },
+        {
+            "id": "2",
+            "type": "merchant",
+            "attributes": {
+                "name": "Klein, Rempel and Jones"
+            }
+        },
+        {
+            "id": "3",
+            "type": "merchant",
+            "attributes": {
+                "name": "Willms and Sons"
+            }
+        },
+     [
+ }
+```
+```
+http://localhost:3000/api/v1/merchants/42
+```
 ```
 {
-  "data": {
-        "id": "2511",
-        "type": "item",
-        "attributes" : {
-          "name": "apple",
-          "expiration": "2112-12-21"
+    "data": {
+        "id": "42",
+        "type": "merchant",
+        "attributes": {
+            "name": "Glover Inc"
         }
-  }
-}
-```
-
-#### Add item to fridge
-
-```
-get https://waste-no-more-fe.herokuapp.com/api/v1/items/delete
-```
-
-```
-{
-  "data": {
-        "id": "2511",
-        "type": "item",
-        "attributes" : {
-          "name": "apple",
-          "expiration": "2012-12-21"
-        }
-  }
-}
-```
-
-#### Show a User
-
-```
-get https://waste-no-more-fe.herokuapp.com/api/v1/users/show
-```
-
-```
-{
-  "data": {
-      "id": "2112",
-      "type": "user",
-      "attributes" : {
-        "name": "Geddy",
-        "email": "rocinante@cygnus.com"
-      }
     }
 }
 ```
-
-#### Create a User
-
 ```
-get https://waste-no-more-fe.herokuapp.com/api/v1/users/create
+http://localhost:3000/api/v1/merchants/42/items
+```
+*There will be more Items for this Merchant :id*
 ```
 
+{
+    "data": [
+        {
+            "id": "2425",
+            "type": "item",
+            "attributes": {
+                "name": "Item Excepturi Rem",
+                "description": "Perferendis reprehenderit fugiat sit eos. Corporis ipsum ut. Natus molestiae quia rerum fugit quis. A cumque doloremque magni.",
+                "unit_price": 476.82,
+                "merchant_id": 99
+            }
+        },
+        {
+            "id": "2427",
+            "type": "item",
+            "attributes": {
+                "name": "Item Illum Minus",
+                "description": "Aut voluptatem aut officiis minima cum at. Est ea sed est quia repudiandae. Eum omnis rerum in adipisci aut. Deleniti sunt voluptatibus rerum aut quo omnis.",
+                "unit_price": 98.07,
+                "merchant_id": 99
+            }
+        },
+        {
+            "id": "2426",
+            "type": "item",
+            "attributes": {
+                "name": "Item Repellendus Cum",
+                "description": "Odio vitae asperiores sint ut labore. Tenetur perspiciatis facere quos cum. Optio modi consequatur.",
+                "unit_price": 612.11,
+                "merchant_id": 99
+            }
+        },
+    ]
+}
+```
+#### Merchant Params
+```
+http://localhost:3000/api/v1/merchants/find?name=iLl
+```
 ```
 {
-  "data": {
-      "id": "2112",
-      "type": "user",
-      "attributes" : {
-        "name": "Geddy",
-        "email": "rocinante@cygnus.com"
-      }
+    "data": {
+        "id": "28",
+        "type": "merchant",
+        "attributes": {
+            "name": "Schiller, Barrows and Parker"
+        }
     }
 }
 ```
-
-#### Get User's Items
-``` get https://waste-no-more-be.herokuapp.com/api/v1/users/item ```
-
 ```
-{:data=>
-  [{:id=>"49",
-    :type=>"item",
-    :attributes=>{:id=>49, :name=>"honey dew", :expiration=>"2022-08-04", :days_til_expiration=>nil}},
-   {:id=>"44",
-    :type=>"item",
-    :attributes=>{:id=>44, :name=>"milk", :expiration=>"2022-08-10", :days_til_expiration=>nil}}]}
+http://localhost:3000/api/v1/merchants/find_all?name=ILL
+```
+*Will have more than 3 Merchants*
+```
+{
+    "data": [
+        {
+            "id": "28",
+            "type": "merchant",
+            "attributes": {
+                "name": "Schiller, Barrows and Parker"
+            }
+        },
+        {
+            "id": "13",
+            "type": "merchant",
+            "attributes": {
+                "name": "Tillman Group"
+            }
+        },
+        {
+            "id": "5",
+            "type": "merchant",
+            "attributes": {
+                "name": "Williamson Group"
+            }
+        },
+    ]
+}
+```
+#### Items
+```
+http://localhost:3000/api/v1/items
+```
+```
+{
+    "data": [
+        {
+            "id": "4",
+            "type": "item",
+            "attributes": {
+                "name": "Item Nemo Facere",
+                "description": "Sunt eum id eius magni consequuntur delectus veritatis. Quisquam laborum illo ut ab. Ducimus in est id voluptas autem.",
+                "unit_price": 42.91,
+                "merchant_id": 1
+            }
+        },
+        {
+            "id": "5",
+            "type": "item",
+            "attributes": {
+                "name": "Item Expedita Aliquam",
+                "description": "Voluptate aut labore qui illum tempore eius. Corrupti cum et rerum. Enim illum labore voluptatem dicta consequatur. Consequatur sunt consequuntur ut officiis.",
+                "unit_price": 687.23,
+                "merchant_id": 1
+            }
+        },
+        {
+            "id": "6",
+            "type": "item",
+            "attributes": {
+                "name": "Item Provident At",
+                "description": "Numquam officiis reprehenderit eum ratione neque tenetur. Officia aut repudiandae eum at ipsum doloribus. Iure minus itaque similique. Ratione dicta alias asperiores minima ducimus nesciunt at.",
+                "unit_price": 159.25,
+                "merchant_id": 1
+            }
+        },
+    ]
+}
+```
+```
+http://localhost:3000/api/v1/items/179/merchant
+```
+```
+{
+  "data": {
+    "id": "9",
+    "type": "merchant",
+    "attributes": {
+      "name": "Hand-Spencer"
+    }
+  }
+}
+```
+#### Item Creation
+```
+post http://localhost:3000/api/v1/items
+```
+```
+{
+    "name": "Dominic",
+    "description": "Is a cool guy",
+    "unit_price": 99.99,
+    "merchant_id": 1 (Must be valid)
+}
+```
+#### Item Update
+```
+put http://localhost:3000/api/v1/items
+```
+```
+{
+    "name": "Dominic",
+    "description": "Is a cool guy",
+    "unit_price": 99.99,
+    "merchant_id": 1 (Must be valid)
+}
 ```
 
-
-#### Get User's Groceries
-```get https://waste-no-more-be.herokuapp.com/api/v1/groceries```
-
+#### Items Params
 ```
-{:data=>
-  [{:id=>"18", :type=>"grocery", :attributes=>{:id=>18, :name=>"bananas"}},
-   {:id=>"19", :type=>"grocery", :attributes=>{:id=>19, :name=>"cold brew"}}]}
+http://localhost:3000/api/v1/items/find_all?name=hArU
+```
+*There will be more data for these Items*
 ```
 
-
-#### Create Grocery
-```get https://waste-no-more-be.herokuapp.com/api/v1/groceries```
-
+{
+    "data": [
+        {
+            "id": "1209",
+            "type": "item",
+            "attributes": {
+                "name": "Item At Harum",
+                "description": "Fuga et aut libero veniam tenetur. Ex eligendi modi libero aut numquam at. Velit dolores non ut cupiditate aut consequatur. Maiores quas vel qui aut et voluptatum. Qui consequatur illo.",
+                "unit_price": 841.97,
+                "merchant_id": 55
+            }
+        },
+        {
+            "id": "1344",
+            "type": "item",
+            "attributes": {
+                "name": "Item Aut Harum",
+                "description": "Illum ducimus officia possimus est. Rerum sed quia omnis necessitatibus. A sed cupiditate blanditiis ut minus sed.",
+                "unit_price": 513.97,
+                "merchant_id": 59
+            }
+        },
+        {
+            "id": "682",
+            "type": "item",
+            "attributes": {
+                "name": "Item Cum Harum",
+                "description": "Libero est magnam dolores officiis velit. Porro ut laboriosam inventore consequatur ratione quae. Aut natus voluptatem saepe excepturi harum dolores.",
+                "unit_price": 59.44,
+                "merchant_id": 33
+            }
+        },
+    ]
+}
 ```
-{:data=>
-  [{:id=>"18", :type=>"grocery", :attributes=>{:id=>18, :name=>"bananas"}},
-   {:id=>"19", :type=>"grocery", :attributes=>{:id=>19, :name=>"cold brew"}}]}
+```
+http://localhost:3000/api/v1/items/find_all?min_price=999
+```
+*You can also do ?max_price={number} or chain them with ?min_price={number}&max_price={number}*
+```
+
+{
+    "data": [
+        {
+            "id": "1708",
+            "type": "item",
+            "attributes": {
+                "name": "Item Eos Similique",
+                "description": "Minima ex voluptatem provident voluptatem sapiente reiciendis adipisci. Eius nihil neque. Architecto omnis sunt voluptatem ratione dignissimos fuga. Sint tenetur maiores sapiente eos placeat. Sit sed perspiciatis.",
+                "unit_price": 999.94,
+                "merchant_id": 69
+            }
+        },
+        {
+            "id": "1063",
+            "type": "item",
+            "attributes": {
+                "name": "Item Et Dolorem",
+                "description": "Quo aut architecto eum suscipit. Cumque blanditiis aut beatae recusandae. Dolores ut accusantium deleniti.",
+                "unit_price": 999.54,
+                "merchant_id": 47
+            }
+        },
+        {
+            "id": "1711",
+            "type": "item",
+            "attributes": {
+                "name": "Item Quaerat Expedita",
+                "description": "Sed consequatur in atque odit ex quae perspiciatis. Ut aut quos. Reiciendis rem excepturi ex explicabo dolore. Aliquam deserunt sed voluptas.",
+                "unit_price": 999.88,
+                "merchant_id": 70
+            }
+        }
+    ]
+}
+```
+```
+http://localhost:3000/api/v1/items/find?name=hArU
+```
+```
+{
+    "data": {
+        "id": "1209",
+        "type": "item",
+        "attributes": {
+            "name": "Item At Harum",
+            "description": "Fuga et aut libero veniam tenetur. Ex eligendi modi libero aut numquam at. Velit dolores non ut cupiditate aut consequatur. Maiores quas vel qui aut et voluptatum. Qui consequatur illo.",
+            "unit_price": 841.97,
+            "merchant_id": 55
+        }
+    }
+}
+```
+```
+http://localhost:3000/api/v1/items/find?min_price=50
+```
+*You can also do ?max_price={number} or chain them with ?min_price={number}&max_price={number}*
+```
+{
+    "data": {
+        "id": "2352",
+        "type": "item",
+        "attributes": {
+            "name": "Item A Error",
+            "description": "Exercitationem rerum porro illo quam molestiae fugiat. Est sit consequatur magnam qui. Officia fugit corporis aliquam enim consectetur.",
+            "unit_price": 285.96,
+            "merchant_id": 97
+        }
+    }
+}
 ```
 
 
