@@ -16,7 +16,10 @@ module Api
       end
 
       def destroy
-        Item.destroy(params[:id])
+        item = Item.find(params[:id])
+        invoices = item.invoices
+        invoices.each { |invoice| invoice.destroy if invoice.items.count == 1 }
+        item.destroy
       end
 
       def update
