@@ -27,14 +27,14 @@ RSpec.describe 'Merchants API | Find' do
 
         merchants_response = JSON.parse(response.body, symbolize_names: true)[:data]
 
-        merchants = [@merchant1, @merchant2, @merchant3]
+        merchants = [@merchant1, @merchant3, @merchant2]
         merchants_response.each_with_index do |merchant, index|
           # Check return length
           expect(merchant.count).to eq 3
           expect(merchant[:attributes].count).to eq 1
 
           expect(merchant).to have_key(:id)
-          expect(merchant[:id]).to eq merchants[index].id
+          expect(merchant[:id]).to eq merchants[index].id.to_s
           expect(merchant).to have_key(:type)
           expect(merchant[:type]).to be_an(String)
           expect(merchant).to have_key(:attributes)

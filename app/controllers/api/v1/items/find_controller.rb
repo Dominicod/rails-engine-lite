@@ -2,7 +2,7 @@
 
 module Api
   module V1
-    module Merchants
+    module Items
       class FindController < ApplicationController
         def index
           merchant = Merchant.find_by_name(query_params)

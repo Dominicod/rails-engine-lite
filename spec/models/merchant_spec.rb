@@ -27,15 +27,15 @@ RSpec.describe Merchant, type: :model do
       end
     end
 
-    describe '.find_all' do
+    describe '.find_all_by_name' do
       it 'should return all merchants with given param name' do
         merchant1 = create(:merchant, name: 'aring')
         merchant2 = create(:merchant, name: 'thering')
         merchant3 = create(:merchant, name: 'ringbewildin')
 
-        merchants = Merchant.find_all('ring')
+        merchants = Merchant.find_all_by_name('ring')
 
-        merchants_arr = [merchant1, merchant2, merchant3]
+        merchants_arr = [merchant1, merchant3, merchant2]
 
         expect(merchants.count).to eq 3
         merchants.each_with_index do |merchant, index|

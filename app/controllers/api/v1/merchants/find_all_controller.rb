@@ -2,10 +2,10 @@
 
 module Api
   module V1
-    module Items
+    module Merchants
       class FindAllController < ApplicationController
         def index
-          merchants = Merchant.find_all(query_params)
+          merchants = Merchant.find_all_by_name(query_params)
           if merchants.nil? || merchants.empty?
             render json: empty_arr
           else
@@ -20,7 +20,6 @@ module Api
         end
 
         def query_params
-          binding.pry
           params.require(:name)
         end
       end
