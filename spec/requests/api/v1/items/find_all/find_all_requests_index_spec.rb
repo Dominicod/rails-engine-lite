@@ -2,8 +2,8 @@
 
 require 'rails_helper'
 
-RSpec.describe 'Items API | Find' do
-  describe 'Item Find' do
+RSpec.describe 'Items API | Find All' do
+  describe 'Item Find All' do
     context('Happy Path') do
       before(:each) do
         @item_1 = create(:item, name: 'boring', unit_price: 50.00)
