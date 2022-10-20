@@ -12,4 +12,6 @@ class Merchant < ApplicationRecord
   def self.find_by_name(params)
     where('name ILIKE ?', "%#{params}%").order(:name).first
   end
+
+  scope :find_all_by_name, ->(params) { where('name ILIKE ?', "%#{params}%").order(:name) }
 end
