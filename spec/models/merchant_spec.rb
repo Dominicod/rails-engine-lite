@@ -26,5 +26,22 @@ RSpec.describe Merchant, type: :model do
         expect(Merchant.find_by_name('ring')).to eq merchant
       end
     end
+
+    describe '.find_all' do
+      it 'should return all merchants with given param name' do
+        merchant1 = create(:merchant, name: 'aring')
+        merchant2 = create(:merchant, name: 'thering')
+        merchant3 = create(:merchant, name: 'ringbewildin')
+
+        merchants = Merchant.find_all('ring')
+
+        merchants_arr = [merchant1, merchant2, merchant3]
+
+        expect(merchants.count).to eq 3
+        merchants.each_with_index do |merchant, index|
+          expect(merchant.name).to eq merchants_arr[index].name
+        end
+      end
+    end
   end
 end
