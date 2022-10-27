@@ -7,6 +7,8 @@
 ## About the Project
 The API supports relationships between Merchants and Items, allowing you to grab a certain Items Merchant or a Merchants Items. The full rundown of API endpoints will be located below in endpoints
 
+This API also has a front facing application that consumes it. That is located [here](https://github.com/Dominicod/rails_engine_fe)
+
 ## Built With
 ![RoR](https://img.shields.io/badge/Ruby_on_Rails-CC0000?style=for-the-badge&logo=ruby-on-rails&logoColor=white)
 ![pgsql](https://img.shields.io/badge/PostgreSQL-316192?style=for-the-badge&logo=postgresql&logoColor=white)
@@ -25,6 +27,8 @@ The API supports relationships between Merchants and Items, allowing you to grab
 - Clone this repo
 - `bundle install`
 - `rails s`
+
+Visit the [front-end application](https://github.com/Dominicod/rails_engine_fe) to begin front-end setup.
 
 ## Database Creation
 - `rails db:{create,migrate,seed}`
