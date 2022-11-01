@@ -56,9 +56,9 @@ class ApplicationController < ActionController::API
       raise ActiveRecord::StatementInvalid, 'Incorrect usage of params'; end
     if params[:min_price].to_i.negative? || params[:max_price].to_i.negative?
       raise ActiveRecord::StatementInvalid, 'Price cannot be less than zero'; end
-    if params[:min_price] && params[:max_price]
-      if params[:max_price].to_i < params[:min_price].to_i
-        raise ActiveRecord::StatementInvalid, 'Pricing Invalid'; end
+
+    if params[:min_price] && params[:max_price] && (params[:max_price].to_i < params[:min_price].to_i)
+      raise ActiveRecord::StatementInvalid, 'Pricing Invalid'
     end
   end
 end

@@ -15,7 +15,9 @@ class Item < ApplicationRecord
   scope :find_all_by_name, ->(params) { where('name ILIKE ?', "%#{params}%").order(:name) }
   scope :find_all_by_min_price, ->(params) { where('unit_price >= ?', params).order(:name) }
   scope :find_all_by_max_price, ->(params) { where('unit_price <= ?', params).order(:name) }
-  scope :find_all_by_min_max_price, ->(params) { where('unit_price >= ? AND unit_price <= ?', params[0], params[1]).order(:name) }
+  scope :find_all_by_min_max_price, lambda { |params|
+                                      where('unit_price >= ? AND unit_price <= ?', params[0], params[1]).order(:name)
+                                    }
 
   def self.find_by_name(params)
     find_all_by_name(params).first
